@@ -1,8 +1,11 @@
 const should = require('should');
 
-describe('this is test for test', () => {
-  it('test1', () => {
-    const test = 'test';
-    test.should.be.equal('test');
-  });
-});
+// 할일 생성
+
+// 할일 수정
+
+// 할일 삭제
+
+// user의 오늘 할 일 조회
+
+// user의 전체 타임 라인 조회
