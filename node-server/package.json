@@ -1,0 +1,26 @@
+{
+  "name": "node-server",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon ./src/main/www.js",
+    "start:dev": "NODE_ENV='dev' nodemon ./src/main/www.js",
+    "test": "NODE_ENV='test' mocha $(find src/api -name '*.spec.js') --recursive -w"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-flash": "^0.1.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mocha": "^5.2.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.5",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^4.41.0",
+    "should": "^13.2.3",
+    "sqlite3": "^4.0.3",
+    "supertest": "^3.3.0"
+  }
+}
