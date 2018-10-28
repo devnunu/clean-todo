@@ -2,8 +2,8 @@ const should = require('should');
 const request = require('supertest');
 const app = require('../../../app');
 
-describe('POST /user는 ', () => {
-  let name = 'testUser',
+describe('POST /users는 ', () => {
+  let id = 'testUser',
     password = 'test123',
     passwordValid = 'test123',
     body;
@@ -12,7 +12,7 @@ describe('POST /user는 ', () => {
     it('201을 리턴한다', done => {
       request(app)
         .post('/user')
-        .send({ name, password, passwordValid })
+        .send({ id, password, passwordValid })
         .expect(201)
         .end((err, res) => {
           body = res.body;
@@ -24,7 +24,7 @@ describe('POST /user는 ', () => {
     });
   });
   describe('실패시 ', () => {
-    it('name 파라미터가 없을경우 400 반환한다', done => {
+    it('id 파라미터가 없을경우 400 반환한다', done => {
       request(app)
         .post('/user')
         .send({ password, passwordValid })
@@ -34,14 +34,14 @@ describe('POST /user는 ', () => {
     it('password 파라미터가 없을경우 400 반환한다', done => {
       request(app)
         .post('/user')
-        .send({ name, passwordValid })
+        .send({ id, passwordValid })
         .expect(400)
         .end(done);
     });
     it('passwordValid 파라미터가 없을경우 400 반환한다', done => {
       request(app)
         .post('/user')
-        .send({ name, password })
+        .send({ id, password })
         .expect(400)
         .end(done);
     });
@@ -50,63 +50,71 @@ describe('POST /user는 ', () => {
         (passwordValid = 'test456'),
         request(app)
           .post('/user')
-          .send({ name, password, passwordValid })
+          .send({ id, password, passwordValid })
           .expect(400)
           .end(done);
     });
   });
 });
 
-/* 유저 생성
-* @method POST
-* @param (name, password, validPassword)
-*/
+describe('POST /users/login은', () => {
+  const id = 'loginTestUser';
+  const password= 'test123';
+  const users = [
+    {
+      id,
+      password:
+        '61b976821ad4a7545054a2e45367e3af53522477d39b28fdca26b36fed95f8b1a2005e3188b682a74f9e772aa3cb7201fcb6d01ce6cb2cdf720690fd26d5bb1e'
+    }
+  ];
+  
+  describe('성공시', () => {
+  const body;
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
+    it('200 ok를 반환한다', done => {
+      request(app)
+        .send({ id, password })
+        .expect(200)
+        .end((err,res)=>{
+          body = res.body;
+          done();
+        });
+    });
+    // TODO: 성공시 반환형 찾아서 테스트 케이스 생성해야함
+  });
 
-/* 성공시
-* @return user 객체
-* @status 201 ok
-*/
-
-/* 실패시
-* @case name 값이 없을 때
-* @status 400
-*/
-
-/* 실패시
-* @case password 값이 없을 때
-* @status 400
-*/
-
-/* 실패시
-* @case validPassword 값이 없을 때
-* @status 400
-*/
-
-/* 실패시
-* @case password 값이 다를 때
-* @status 400
-*/
-
-////////////////////
-
-/* 로그인 
-* @method get
-* @param (name, password)
-*/
-
-/* 성공시
-* @return user 객체
-* @status 200 ok
-*/
-
-/* 실패시
-* @case 유저 name이 없을때
-* @return message: Incorrect username
-* @status 400 ok
-*/
-
-/* 실패시
-* @case 유저 password가 맞지 않을떄
-* @return message: Incorrect password
-* @status 400 ok
-*/
+  describe('실패시', () => {
+    const body;
+    const wrongUserId = 'wrong123'
+    const wrongUserPassword = 'wrong123'
+    before(() => models.sequelize.sync({ force: true }));
+    before(() => models.User.bulkCreate(users));
+    it('id 값이 같은 유저가 없으면 400 반환한다', done => {
+        request(app)
+          .send({ id:wrongUserId, password })
+          .expect(400)
+          .end((done)=>{
+            body = res.body;
+            done()
+          });
+      });
+    });
+    it('id 값이 같은 유저가 없으면 경고 메세지를 반환한다', done => {
+      body.should.have.property('message');
+      body.message.should.be.equal('Incorrect username');
+    });
+    it('패스워드가 틀리면 400 반환한다', done => {
+      request(app)
+        .send({ id, password:wrongUserPassword })
+        .expect(400)
+        .end((done)=>{
+          body = res.body;
+          done()
+        });
+  });
+  it('password가 틀리면 경고 메세지를 반환한다', done => {
+    body.should.have.property('message');
+    body.message.should.be.equal('Incorrect password');
+  });
+});
