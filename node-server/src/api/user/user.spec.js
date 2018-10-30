@@ -8,7 +8,7 @@ const message = require('../../common/message');
 
 // model
 const commonModels = require('../../common/models');
-const userModels = require('../user/user.model');
+const userModels = require('./user.model');
 
 describe('GET /users는 ', () => {
   const users = [
@@ -21,7 +21,7 @@ describe('GET /users는 ', () => {
   before(() => userModels.User.bulkCreate(users));
   describe('성공시', () => {
     let body;
-    it('200을 리턴한다', done => {
+    it('상태코드 200을 리턴한다', done => {
       request(app)
         .get('/users')
         .end((err, res) => {
@@ -45,7 +45,7 @@ describe('POST /users는 ', () => {
     body;
   describe('성공시 ', () => {
     before(() => commonModels.sequelize.sync({ force: true }));
-    it('201을 리턴한다', done => {
+    it('상태코드 201을 리턴한다', done => {
       request(app)
         .post('/users')
         .send({ userId, password, passwordValid })
@@ -61,7 +61,7 @@ describe('POST /users는 ', () => {
   });
   describe('실패시 ', () => {
     before(() => commonModels.sequelize.sync({ force: true }));
-    it('userId 파라미터가 없을경우 400 반환한다', done => {
+    it('userId 파라미터가 없을경우 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .post('/users')
         .send({ password, passwordValid })
@@ -71,7 +71,7 @@ describe('POST /users는 ', () => {
           done();
         });
     });
-    it('password 파라미터가 없을경우 400 반환한다', done => {
+    it('password 파라미터가 없을경우 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .post('/users')
         .send({ userId, passwordValid })
@@ -81,7 +81,7 @@ describe('POST /users는 ', () => {
           done();
         });
     });
-    it('passwordValid 파라미터가 없을경우 400 반환한다', done => {
+    it('passwordValid 파라미터가 없을경우 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .post('/users')
         .send({ userId, password })
@@ -91,7 +91,7 @@ describe('POST /users는 ', () => {
           done();
         });
     });
-    it('password가 다를경우 400 반환한다', done => {
+    it('password가 다를경우 상태코드 400과 메세지를 반환한다', done => {
       (password = 'test123'),
         (passwordValid = 'test456'),
         request(app)
@@ -121,7 +121,7 @@ describe('POST Login 로직은', () => {
     let body;
     before(() => commonModels.sequelize.sync({ force: true }));
     before(() => userModels.User.bulkCreate(users));
-    it('로그인이 되면 200 ok와 메세지를 반환한다', done => {
+    it('로그인이 되면 상태코드 200과 메세지를 반환한다', done => {
       authenticatedUser
         .post('/users/login')
         .send({ userId, password })
@@ -147,7 +147,7 @@ describe('POST Login 로직은', () => {
     const wrongUserPassword = 'wrong123';
     before(() => commonModels.sequelize.sync({ force: true }));
     before(() => userModels.User.bulkCreate(users));
-    it('userId 값이 같은 유저가 없으면 401 반환한다', done => {
+    it('userId 값이 같은 유저가 없으면 상태코드 401을 반환한다', done => {
       authenticatedUser
         .post('/users/login')
         .send({ userId: wrongUserId, password })
@@ -156,7 +156,7 @@ describe('POST Login 로직은', () => {
           done();
         });
     });
-    it('패스워드가 틀리면 401 반환한다', done => {
+    it('패스워드가 틀리면 상태코드 401 반환한다', done => {
       authenticatedUser
         .post('/users/login')
         .send({ userId, password: wrongUserPassword })
