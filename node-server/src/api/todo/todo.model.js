@@ -13,10 +13,10 @@ const Todo = sequelize.define(
       allowNull: false,
       primaryKey: true
     },
-    userId: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
+    // userId: {
+    //   type: Sequelize.INTEGER,
+    //   allowNull: false
+    // },
     title: {
       type: Sequelize.STRING,
       allowNull: false
@@ -28,6 +28,7 @@ const Todo = sequelize.define(
   }
 );
 
+userModels.User.hasMany(Todo, { foreignKey: 'userId', targetKey: 'id' });
 Todo.belongsTo(userModels.User, { foreignKey: 'userId', targetKey: 'id' });
 
 module.exports = {

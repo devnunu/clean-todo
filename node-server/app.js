@@ -10,6 +10,7 @@ const passportConfig = require('./src/main/passport');
 
 // router
 const user = require('./src/api/user');
+const todo = require('./src/api/todo');
 
 const ENV_DEV = 'dev';
 const ENV_TEST = 'test';
@@ -27,5 +28,6 @@ if (process.env.NODE_ENV === ENV_DEV) {
 
 // router
 app.use('/users', user);
+app.use('/todo', todo);
 
 module.exports = app;

@@ -6,6 +6,8 @@ const app = require('../../../app');
 const message = require('../../common/message');
 
 // model
+const commonModels = require('../../common/models');
+const userModels = require('../user/user.model');
 const todoModels = require('./todo.model');
 
 describe('POST /todo는', () => {
@@ -17,7 +19,7 @@ describe('POST /todo는', () => {
       password
     }
   ];
-  const todoTitle = 'clean my room';
+  const title = 'clean my room';
   describe.only('성공시', () => {
     let body;
     const authenticatedUser = request.agent(app);
@@ -27,16 +29,17 @@ describe('POST /todo는', () => {
       authenticatedUser
         .post('/users/login')
         .send({ userId, password })
-        .then(() => {
-          request(app)
+        .end((err, res) => {
+          authenticatedUser
             .post('/todo')
-            .send({ todoTitle })
+            .send({ title })
             .end((err, res) => {
               res.status.should.be.equal(200);
               body = res.body;
               done();
             });
         });
+      done();
     });
     it('todo 객체를 반환한다', done => {
       res.status.should.be.properties(['userId, id, title']);
