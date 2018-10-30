@@ -18,7 +18,7 @@ describe('POST /todo는', () => {
     }
   ];
   const todoTitle = 'clean my room';
-  describe('성공시', () => {
+  describe.only('성공시', () => {
     let body;
     const authenticatedUser = request.agent(app);
     before(() => commonModels.sequelize.sync({ force: true }));

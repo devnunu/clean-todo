@@ -56,6 +56,7 @@ describe('POST /users는 ', () => {
         });
     });
     it('유저 객체를 반환한다', () => {
+      console.log(body);
       body.should.have.property('userId');
     });
   });
