@@ -5,5 +5,6 @@ const ctrl = require('./todo.ctrl');
 // todo 생성
 router.post('/', ctrl.create);
 router.put('/', ctrl.update);
+router.delete('/', ctrl.destroy);
 
 module.exports = router;

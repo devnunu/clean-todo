@@ -2,7 +2,8 @@ const { Todo } = require('../../common/models');
 const message = require('../../common/message');
 
 const create = (req, res) => {
-  if (!req.user) return res.status(400).send({ msg: message.MSG_USERID_MISSING });
+  if (!req.user)
+    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
   const userId = req.user.id;
 
   const title = req.body.title;
@@ -14,14 +15,16 @@ const create = (req, res) => {
 };
 
 const update = (req, res) => {
-  if (!req.user) return res.status(400).send({ msg: message.MSG_USERID_MISSING });
+  if (!req.user)
+    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
   const userId = req.user.id;
 
   const title = req.body.title;
   if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
 
   const id = req.body.id;
-  if (id !== 0 && !id) return res.status(400).send({ msg: message.MSG_ID_MISSING });
+  if (typeof id !== 'number')
+    return res.status(400).send({ msg: message.MSG_ID_MISSING });
 
   Todo.findOne({ where: { id } }).then(todo => {
     if (!todo) return res.status(404).end();
@@ -33,7 +36,22 @@ const update = (req, res) => {
   });
 };
 
+const destroy = (req, res) => {
+  if (!req.user)
+    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
+  const userId = req.user.id;
+
+  const id = req.body.id;
+  if (typeof id !== 'number')
+    return res.status(400).send({ msg: message.MSG_ID_MISSING });
+
+  Todo.destroy({ where: { id } }).then(todoId => {
+    res.status(204).end();
+  });
+};
+
 module.exports = {
   create,
   update,
+  destroy
 };

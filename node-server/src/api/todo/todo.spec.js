@@ -160,7 +160,7 @@ describe('UPDATE /todo는', () => {
 });
 
 describe('DELETE /todo는', () => {
-  describe.only('성공 시', () => {
+  describe('성공 시', () => {
     let body;
     const authenticatedUser = request.agent(app);
     before(() => sequelize.sync({ force: true }));
@@ -174,21 +174,17 @@ describe('DELETE /todo는', () => {
           done();
         });
     });
-    it('todo 삭제 시 200을 반환한다', done => {
+    it('todo 삭제 시 204를 반환한다', done => {
       authenticatedUser
         .delete('/todo')
         .send({
           id: testTodo.id
         })
-        .send((err, send) => {
+        .end((err, res) => {
           body = res.body;
-          res.status.should.be.equal(200);
+          res.status.should.be.equal(204);
           done();
         });
-    });
-    it('삭제된 todo 객체를 반환한다', done => {
-      body.should.have.properties(['id,userId,title']);
-      done();
     });
   });
   describe('실패 시', () => {
@@ -219,32 +215,8 @@ describe('DELETE /todo는', () => {
         done();
       });
     });
-    it('id가 매칭되는 todo가 없을떄 404를 반환한다', done => {
-      authenticatedUser
-        .delete('/todo')
-        .send({ id: 100 })
-        .end((err, res) => {
-          res.status.should.be.equal(404);
-          res.body.msg.should.be.equal(message.MSG_NOT_FOUND);
-          done();
-        });
-    });
   });
 });
-
-/*
-* 할일 삭제
-* @method delete
-* @param userId, todoid
-*/
-
-// 성공시
-// @return 200 ok, 삭제된 할 일 객체 반환
-
-// 실패시
-// @case userId가 없을 때
-// @case todoId 파라미터가 전달되지 않았을때
-// @case 매칭되는 todoId가 없을 때
 
 /*
 * user의 특정 날짜의 할 일 조회
