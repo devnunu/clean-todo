@@ -8,7 +8,7 @@ const message = require('../../common/message');
 // model
 const { sequelize, User } = require('../../common/models');
 
-describe('POST /todo는', () => {
+describe.only('POST /todo는', () => {
   const userId = 'loginTestUser';
   const password = 'test123';
   const users = [
@@ -18,7 +18,7 @@ describe('POST /todo는', () => {
     },
   ];
   const title = 'clean my room';
-  describe.only('성공시', () => {
+  describe('성공시', () => {
     let body;
     const authenticatedUser = request.agent(app);
     before(() => sequelize.sync({ force: true }));
@@ -39,7 +39,6 @@ describe('POST /todo는', () => {
         .end((err, res) => {
           res.status.should.be.equal(200);
           body = res.body;
-          console.log(body);
           done();
         });
     });
@@ -53,23 +52,29 @@ describe('POST /todo는', () => {
     it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .post('/todo')
-        .send({ todoTitle })
+        .send({ title })
         .end((err, res) => {
           res.status.should.be.equal(400);
-          res.body.msg.should.be.equal('userId missing');
+          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          done();
+        });
+    });
+    it('로그인 시 상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .post('/users/login')
+        .send({ userId, password })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          done();
         });
     });
     it('title이 없으면 상태코드 400과 메세지를 반환한다', done => {
       authenticatedUser
-        .post('/users/login')
-        .send({ userId, password })
-        .then(() => {
-          request(app)
-            .post('/todo')
-            .end((err, res) => {
-              res.status.should.be.equal(400);
-              res.body.msg.should.be.equal('title missing');
-            });
+        .post('/todo')
+        .end((err, res) => {
+          res.status.should.be.equal(400);
+          res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
+          done();
         });
     });
     // TODO: 오늘 Todo가 10개 이상일때 등록 불가능한 로직 추가 예정
