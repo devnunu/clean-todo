@@ -69,13 +69,11 @@ describe.only('POST /todo는', () => {
         });
     });
     it('title이 없으면 상태코드 400과 메세지를 반환한다', done => {
-      authenticatedUser
-        .post('/todo')
-        .end((err, res) => {
-          res.status.should.be.equal(400);
-          res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
-          done();
-        });
+      authenticatedUser.post('/todo').end((err, res) => {
+        res.status.should.be.equal(400);
+        res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
+        done();
+      });
     });
     // TODO: 오늘 Todo가 10개 이상일때 등록 불가능한 로직 추가 예정
   });

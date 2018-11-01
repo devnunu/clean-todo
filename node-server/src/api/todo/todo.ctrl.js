@@ -6,10 +6,7 @@ const create = (req, res) => {
   const userId = req.user.id;
 
   const title = req.body.title;
-  if (!title) {
-    console.log('asdfasdfdsaf');
-    return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
-  }
+  if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
 
   Todo.create({ userId, title }).then(todo => {
     res.status(200).json(todo);
