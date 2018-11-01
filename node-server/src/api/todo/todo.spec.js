@@ -19,10 +19,53 @@ const testTodo = {
   title: 'clean my room'
 };
 
+const authenticatedUser = request.agent(app);
+
+/*
+* user의 전체 할 일 조회
+* @method get
+* @param userId(req.user)
+* @condition order by createAt
+*/
+
+// 성공시
+// @return 200 ok, 해당 유저의 전체 할 일 반환
+
+// 실패시
+// @case userId가 없을 때
+
+describe.only('GET /todo는', () => {
+  describe('성공시', () => {
+    let body;
+    before(() => sequelize.sync({ force: true }));
+    before(() => User.bulkCreate([testUser]));
+    before(() => Todo.bulkCreate([testTodo]));
+    it('로그인 시 상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .post('/users/login')
+        .send({ userId: testUser.userId, password: testUser.password })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          done();
+        });
+    });
+    it('해당 유저의 상태코드 200을 반환한다', done => {
+      authenticatedUser.get('/todo').end((err, res) => {
+        res.status.should.be.equal(200);
+        body = res.body;
+        done();
+      });
+    });
+    it('todo 정보를 가져온다', done => {
+      body[0].should.have.properties(['id', 'userId', 'title']);
+      done();
+    });
+  });
+});
+
 describe('POST /todo는', () => {
   describe('성공시', () => {
     let body;
-    const authenticatedUser = request.agent(app);
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
     it('로그인 시 상태코드 200을 반환한다', done => {
@@ -230,15 +273,3 @@ describe('DELETE /todo는', () => {
 // 실패시
 // @case userId가 없을 때
 // @case date 파라미터가 전달되지 않았을때
-
-/*
-* user의 전체 할 일 조회
-* @method get
-* @param userId(req.user)
-*/
-
-// 성공시
-// @return 200 ok, 해당 유저의 전체 할 일 반환
-
-// 실패시
-// @case userId가 없을 때
