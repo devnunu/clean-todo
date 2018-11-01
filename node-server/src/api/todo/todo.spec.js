@@ -6,9 +6,9 @@ const app = require('../../../app');
 const message = require('../../common/message');
 
 // model
-const { sequelize, User } = require('../../common/models');
+const { sequelize, User, Todo } = require('../../common/models');
 
-describe.only('POST /todo는', () => {
+describe('POST /todo는', () => {
   const userId = 'loginTestUser';
   const password = 'test123';
   const users = [
@@ -79,30 +79,69 @@ describe.only('POST /todo는', () => {
   });
 });
 
-// describe('UPDATE /todo는', () => {
-//   const userId = 'loginTestUser';
-//   const password = 'test123';
-//   const users = [
-//     {
-//       userId,
-//       password
-//     }
-//   ];
-//   const todoTitle = 'clean my room';
-//   const id = 0;
-//   describe('성공시', () => {
-//     let body;
-//     const authenticatedUser = request.agent(app);
-//     before(() => commonModels.sequelize.sync({ force: true }));
-//     before(() => User.bulkCreate(users));
-//     it('상태코드 200을 리턴한다', done => {
-//       request(app)
-//         .update('/todo')
-//         .send({ id });
-//     });
-//   });
-//   describe('실패시', () => {});
-// });
+describe('UPDATE /todo는', () => {
+  const userId = 'loginTestUser';
+  const password = 'test123';
+  const users = [
+    {
+      userId,
+      password,
+    },
+  ];
+  const title = 'clean my room';
+  const updateTitle = 'clean your room';
+  const id = 0;
+  const todo = [
+    {
+      id,
+      userId: 0,
+      title,
+    },
+  ];
+  describe.only('성공시', () => {
+    let body;
+    const authenticatedUser = request.agent(app);
+    before(() => sequelize.sync({ force: true }));
+    before(() => User.bulkCreate(users));
+    before(() => Todo.bulkCreate(todo));
+    it('로그인 시 상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .post('/users/login')
+        .send({ userId, password })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          done();
+        });
+    });
+    it('변경 성공 시 상태코드 200을 리턴한다', done => {
+      authenticatedUser
+        .put('/todo')
+        .send({ id, title: updateTitle })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          body = res.body;
+          done();
+        });
+    });
+    it('todo 객체를 리턴한다', done => {
+      body.should.have.properties(['id', 'userId', 'title']);
+      done();
+    });
+    it('id는 이전 입력된 값과 동일해야한다', done => {
+      body.id.should.be.equal(0);
+      done();
+    });
+    it('userId는 이전 입력된 값과 동일해야한다', done => {
+      body.userId.should.be.equal(0);
+      done();
+    });
+    it('title은 변경된 값과 동일해야한다', done => {
+      body.title.should.be.equal(updateTitle);
+      done();
+    });
+  });
+  describe('실패시', () => {});
+});
 
 /*
 * 할일 수정
