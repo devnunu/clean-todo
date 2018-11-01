@@ -6,9 +6,7 @@ const app = require('../../../app');
 const message = require('../../common/message');
 
 // model
-const commonModels = require('../../common/models');
-const userModels = require('../user/user.model');
-const todoModels = require('./todo.model');
+const { sequelize, User } = require('../../common/models');
 
 describe('POST /todo는', () => {
   const userId = 'loginTestUser';
@@ -16,33 +14,37 @@ describe('POST /todo는', () => {
   const users = [
     {
       userId,
-      password
-    }
+      password,
+    },
   ];
   const title = 'clean my room';
   describe.only('성공시', () => {
     let body;
     const authenticatedUser = request.agent(app);
-    before(() => commonModels.sequelize.sync({ force: true }));
-    before(() => userModels.User.bulkCreate(users));
-    it('상태코드 200을 리턴한다', done => {
+    before(() => sequelize.sync({ force: true }));
+    before(() => User.bulkCreate(users));
+    it('로그인 시 상태코드 200을 반환한다', done => {
       authenticatedUser
         .post('/users/login')
         .send({ userId, password })
         .end((err, res) => {
-          authenticatedUser
-            .post('/todo')
-            .send({ title })
-            .end((err, res) => {
-              res.status.should.be.equal(200);
-              body = res.body;
-              done();
-            });
+          res.status.should.be.equal(200);
+          done();
         });
-      done();
+    });
+    it('todo 생성 시 상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .post('/todo')
+        .send({ title })
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          body = res.body;
+          console.log(body);
+          done();
+        });
     });
     it('todo 객체를 반환한다', done => {
-      res.status.should.be.properties(['userId, id, title']);
+      body.should.be.properties(['id', 'userId', 'title']);
       done();
     });
   });
@@ -89,7 +91,7 @@ describe('POST /todo는', () => {
 //     let body;
 //     const authenticatedUser = request.agent(app);
 //     before(() => commonModels.sequelize.sync({ force: true }));
-//     before(() => userModels.User.bulkCreate(users));
+//     before(() => User.bulkCreate(users));
 //     it('상태코드 200을 리턴한다', done => {
 //       request(app)
 //         .update('/todo')

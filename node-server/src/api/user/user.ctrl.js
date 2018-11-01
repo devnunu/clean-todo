@@ -1,8 +1,8 @@
-const userModels = require('./user.model');
+const { User } = require('../../common/models');
 const message = require('../../common/message');
 
 const show = (req, res) => {
-  userModels.User.findAll().then(users => {
+  User.findAll().then(users => {
     res.json(users);
   });
 };
@@ -36,7 +36,7 @@ const create = (req, res) => {
       .send({ msg: message.MSG_PASSWORD_NOT_MATCHED })
       .end();
 
-  userModels.User.create({ userId, password }).then(user => {
+  User.create({ userId, password }).then(user => {
     res.status(201).json(user);
   });
 };
@@ -62,5 +62,5 @@ module.exports = {
   create,
   auth,
   login,
-  logout
+  logout,
 };

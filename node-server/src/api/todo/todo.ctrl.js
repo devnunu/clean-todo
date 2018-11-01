@@ -1,14 +1,14 @@
-const todoModels = require('./todo.model');
+const { Todo } = require('../../common/models');
 const message = require('../../common/message');
 
 const create = (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.user.id;
   const title = req.body.title;
-  todoModels.Todo.create({ userId, title }).then(todo => {
+  Todo.create({ userId, title }).then(todo => {
     res.status(200).json(todo);
   });
 };
 
 module.exports = {
-  create
+  create,
 };
