@@ -1,6 +1,20 @@
 const { Todo } = require('../../common/models');
 const message = require('../../common/message');
 
+const show = (req, res) => {
+  if (!req.user)
+    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
+  const userId = req.user.id;
+
+
+  Todo.findAll({
+    where: { userId },
+    order: [['createdAt', 'DESC']]
+  }).then(todos => {
+    res.status(200).send(todos);
+  });
+};
+
 const create = (req, res) => {
   if (!req.user)
     return res.status(400).send({ msg: message.MSG_USERID_MISSING });
@@ -51,6 +65,7 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
+  show,
   create,
   update,
   destroy

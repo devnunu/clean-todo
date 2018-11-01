@@ -13,8 +13,8 @@ describe('GET /users는 ', () => {
   const users = [
     {
       userId: 'testUser',
-      password: 'test123',
-    },
+      password: 'test123'
+    }
   ];
   before(() => sequelize.sync({ force: true }));
   before(() => User.bulkCreate(users));
@@ -54,9 +54,9 @@ describe('POST /users는 ', () => {
           done();
         });
     });
-    it('유저 객체를 반환한다', () => {
-      console.log(body);
+    it('유저 객체를 반환한다', done => {
       body.should.have.property('userId');
+      done();
     });
   });
   describe('실패시 ', () => {
@@ -112,8 +112,8 @@ describe('POST Login 로직은', () => {
   const users = [
     {
       userId,
-      password,
-    },
+      password
+    }
   ];
 
   describe('성공시', () => {

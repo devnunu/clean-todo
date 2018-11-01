@@ -21,20 +21,7 @@ const testTodo = {
 
 const authenticatedUser = request.agent(app);
 
-/*
-* user의 전체 할 일 조회
-* @method get
-* @param userId(req.user)
-* @condition order by createAt
-*/
-
-// 성공시
-// @return 200 ok, 해당 유저의 전체 할 일 반환
-
-// 실패시
-// @case userId가 없을 때
-
-describe.only('GET /todo는', () => {
+describe('GET /todo는', () => {
   describe('성공시', () => {
     let body;
     before(() => sequelize.sync({ force: true }));
@@ -49,7 +36,7 @@ describe.only('GET /todo는', () => {
           done();
         });
     });
-    it('해당 유저의 상태코드 200을 반환한다', done => {
+    it('상태코드 200을 반환한다', done => {
       authenticatedUser.get('/todo').end((err, res) => {
         res.status.should.be.equal(200);
         body = res.body;
@@ -57,8 +44,20 @@ describe.only('GET /todo는', () => {
       });
     });
     it('todo 정보를 가져온다', done => {
-      body[0].should.have.properties(['id', 'userId', 'title']);
+      body.should.be.Array();
       done();
+    });
+  });
+  describe('실패 시', () => {
+    it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
+      request(app)
+        .delete('/todo')
+        .send({ id: testTodo.id })
+        .end((err, res) => {
+          res.status.should.be.equal(400);
+          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          done();
+        });
     });
   });
 });
@@ -93,7 +92,6 @@ describe('POST /todo는', () => {
     });
   });
   describe('실패시', () => {
-    const authenticatedUser = request.agent(app);
     it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .post('/todo')
@@ -131,7 +129,6 @@ describe('UPDATE /todo는', () => {
   describe('성공시', () => {
     let body;
     const updateTitle = 'clean your room';
-    const authenticatedUser = request.agent(app);
     it('로그인 시 상태코드 200을 반환한다', done => {
       authenticatedUser
         .post('/users/login')
@@ -169,7 +166,6 @@ describe('UPDATE /todo는', () => {
     });
   });
   describe('실패시', () => {
-    const authenticatedUser = request.agent(app);
     it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .put('/todo')
@@ -205,7 +201,6 @@ describe('UPDATE /todo는', () => {
 describe('DELETE /todo는', () => {
   describe('성공 시', () => {
     let body;
-    const authenticatedUser = request.agent(app);
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
     it('로그인 시 상태코드 200을 반환한다', done => {
@@ -231,7 +226,6 @@ describe('DELETE /todo는', () => {
     });
   });
   describe('실패 시', () => {
-    const authenticatedUser = request.agent(app);
     it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .delete('/todo')
