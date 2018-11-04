@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet } from 'react-native';
 
-class Intro extends Component<{}, {}> {
-  render() {
-    return (
-      <View style={styles.introView}>
-        <Text>this is intro page</Text>
-      </View>
-    );
-  }
+interface IntroProps {
+  testStatus: boolean;
+  toggleTestStatus: () => void;
 }
+
+const Intro = (props: IntroProps) => {
+  return (
+    <View style={styles.introView}>
+      <Text>this is intro page</Text>
+      <Text>{props.testStatus ? 'true' : 'false'}</Text>
+      <View>
+        <Button title={'Click'} onPress={props.toggleTestStatus} />
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   introView: {

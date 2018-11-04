@@ -1,4 +1,4 @@
-import UserState from '../../model/user';
+import UserState from '../../model/User';
 
 // action
 

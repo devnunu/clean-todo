@@ -1,9 +1,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 // reducers
-import userReducer from './modules/user';
+import user from './modules/user';
+import test from './modules/test';
 
-const reducer = combineReducers({ userReducer });
+const reducer = combineReducers({ user, test });
 
 const store = createStore(reducer);
 
