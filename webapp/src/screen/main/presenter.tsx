@@ -2,7 +2,7 @@ import React from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 
 // screen
-import Intro from '../screen/intro';
+import Intro from '../intro';
 
 const Main = (props: any) => <PrivateRoutes />;
 
