@@ -1,3 +1,4 @@
+import { ActionType } from '../../model/Common';
 import UserState from '../../model/User';
 
 // action
@@ -7,13 +8,13 @@ const USER_SIGNUP = 'USER_SIGNUP';
 
 // action creater
 
-function userLogin() {
+function userLogin(): ActionType {
   return {
     type: USER_LOGIN
   };
 }
 
-function userSignup() {
+function userSignup(): ActionType {
   return {
     type: USER_SIGNUP
   };
@@ -25,8 +26,8 @@ const initialState: UserState = {
   userId: ''
 };
 
-function reducer(state = initialState, action: string) {
-  switch (action) {
+function reducer(state = initialState, action: ActionType) {
+  switch (action.type) {
     case USER_LOGIN:
       return applyUserLogin(state, action);
     case USER_SIGNUP:
@@ -38,13 +39,13 @@ function reducer(state = initialState, action: string) {
 
 // reducer function
 
-function applyUserLogin(state: UserState, action: string) {
+function applyUserLogin(state: UserState, action: ActionType) {
   return {
     ...state
   };
 }
 
-function applyUserSignup(state: UserState, action: string) {
+function applyUserSignup(state: UserState, action: ActionType) {
   return {
     ...state
   };
