@@ -1,3 +1,5 @@
+const jwt = require('jwt-simple');
+
 const { User } = require('../../common/models');
 const message = require('../../common/message');
 
@@ -42,14 +44,45 @@ const create = (req, res) => {
 };
 
 const auth = (req, res) => {
-  res.json(req.user).end();
+  const userId = req.token.id;
+  User.findOne({ where: { userId } }).then(user => {
+    if (!user)
+      return res
+        .status(404)
+        .send({ mag: message.MSG_USERID_MISSING })
+        .end();
+    res.send(user).end();
+  });
 };
 
 const login = (req, res) => {
-  res
-    .status(200)
-    .send({ msg: message.MSG_SUCCESS_LOGIN })
-    .end();
+  const userId = req.body.userId;
+  if (!userId)
+    return res
+      .status(400)
+      .send({ msg: message.MSG_USERID_MISSING })
+      .end();
+
+  const password = req.body.password;
+  if (!password)
+    return res
+      .status(400)
+      .send({ msg: message.MSG_PASSWORD_MISSING })
+      .end();
+
+  User.findOne({ where: { userId } }).then(user => {
+    if (!user) {
+      return res.status(401).send({ msg: 'Incorrect username' });
+    }
+    const validPassword = user.password === password;
+    if (!validPassword) res.status(401).send({ msg: 'Incorrect password' });
+
+    const token = getToken(user.userId);
+    return res
+      .status(200)
+      .send({ token, msg: message.MSG_SUCCESS_LOGIN })
+      .end();
+  });
 };
 
 const logout = (req, res) => {
@@ -57,10 +90,15 @@ const logout = (req, res) => {
   res.send(200);
 };
 
+const getToken = userId => {
+  const payload = { id: userId };
+  return jwt.encode(payload, 'secret');
+};
+
 module.exports = {
   show,
   create,
   auth,
   login,
-  logout,
+  logout
 };

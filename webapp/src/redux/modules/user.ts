@@ -1,5 +1,6 @@
 import { ActionType } from '../../model/Common';
 import UserState from '../../model/User';
+import { string } from 'prop-types';
 
 // action
 
@@ -23,7 +24,8 @@ function userSignup(): ActionType {
 // reducer
 
 const initialState: UserState = {
-  userId: ''
+  isLoggedIn: false,
+  token: ''
 };
 
 function reducer(state = initialState, action: ActionType) {

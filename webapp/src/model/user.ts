@@ -1,3 +1,4 @@
 export default interface UserState {
-  userId: string;
+  isLoggedIn: boolean;
+  token: string;
 }

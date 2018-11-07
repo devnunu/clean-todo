@@ -4,6 +4,9 @@ const MSG_PASSWORD_MISSING = '패스워드가 없습니다';
 const MSG_PASSWORDVALID_MISSING = '패스워드 확인이 없습니다';
 const MSG_PASSWORD_NOT_MATCHED = '패스워드 확인이 없습니다';
 
+const MSG_NOT_LOGIN = '로그인 되지 않았습니다';
+const MSG_TOKEN_ERROR = '비정상적인 토큰입니다';
+
 const MSG_TITLE_MISSING = 'Todo 타이틀이 없습니다';
 
 const MSG_NOT_FOUND = '해당 데이터를 찾을 수 없습니다';
@@ -19,4 +22,6 @@ module.exports = {
   MSG_TITLE_MISSING,
   MSG_ID_MISSING,
   MSG_NOT_FOUND,
+  MSG_NOT_LOGIN,
+  MSG_TOKEN_ERROR
 };

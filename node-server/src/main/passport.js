@@ -1,38 +1,33 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+
 // model
 const { User } = require('../common/models');
 
 module.exports = app => {
   app.use(passport.initialize());
-  app.use(passport.session());
   passport.use(
-    new LocalStrategy(
+    new JwtStrategy(
       {
-        usernameField: 'userId',
-        passwordField: 'password',
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: 'secret'
       },
-      (userId, password, done) => {
-        User.findOne({ where: { userId } }).then(user => {
+      (jwt_payload, done) => {
+        console.log('jwt_payload', jwt_payload);
+        User.findOne({ where: { id: jwt_payload.id } }).then(user => {
           if (!user) {
             return done(null, false, { msg: 'Incorrect username' });
           }
-          const validPassword = user.password === password;
-          if (!validPassword) return done(null, false, { msg: 'Incorrect password' });
-          return done(null, user);
+          if (user) {
+            return done(null, user);
+          } else {
+            return done(null, false);
+          }
         });
       }
     )
   );
-
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
-
-  passport.deserializeUser((id, done) => {
-    User.findOne({ where: { id } }).then(user => {
-      done(null, user);
-    });
-  });
 };
