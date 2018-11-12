@@ -1,3 +1,5 @@
+const jwt = require('jwt-simple');
+
 // for test
 const should = require('should');
 const request = require('supertest');
@@ -8,6 +10,8 @@ const message = require('../../common/message');
 
 // model
 const { sequelize, User } = require('../../common/models');
+
+// const payload = { id: userId };
 
 describe('GET /users는 ', () => {
   const users = [
@@ -118,7 +122,7 @@ describe('POST Login 로직은', () => {
 
   describe('성공시', () => {
     const authenticatedUser = request.agent(app);
-    let body;
+    let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate(users));
     it('로그인이 되면 상태코드 200과 메세지를 반환한다', done => {
@@ -127,16 +131,21 @@ describe('POST Login 로직은', () => {
         .send({ userId, password })
         .end((err, res) => {
           res.status.should.be.equal(200);
+          res.body.should.have.properties(['token', 'msg']);
           res.body.msg.should.be.equal(message.MSG_SUCCESS_LOGIN);
+          token = res.body.token;
           done();
         });
     });
-    it('유저 정보를 요청하면 유저를 반환한다', done => {
-      authenticatedUser.get('/users/auth').end((err, res) => {
-        res.status.should.be.equal(200);
-        res.body.should.have.property('userId');
-        done();
-      });
+    it('유저 정보를 요청하면 유저 아이디를 반환한다', done => {
+      authenticatedUser
+        .get('/users/auth')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          res.body.should.have.property('userId');
+          done();
+        });
     });
   });
 
@@ -160,7 +169,6 @@ describe('POST Login 로직은', () => {
       authenticatedUser
         .post('/users/login')
         .send({ userId, password: wrongUserPassword })
-        .expect(401)
         .end((err, res) => {
           res.status.should.be.equal(401);
           done();

@@ -51,7 +51,7 @@ const auth = (req, res) => {
         .status(404)
         .send({ mag: message.MSG_USERID_MISSING })
         .end();
-    res.send(user).end();
+    res.send({ userId }).end();
   });
 };
 
@@ -75,7 +75,7 @@ const login = (req, res) => {
       return res.status(401).send({ msg: 'Incorrect username' });
     }
     const validPassword = user.password === password;
-    if (!validPassword) res.status(401).send({ msg: 'Incorrect password' });
+    if (!validPassword) return res.status(401).send({ msg: 'Incorrect password' });
 
     const token = getToken(user.userId);
     return res
