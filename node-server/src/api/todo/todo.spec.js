@@ -19,11 +19,10 @@ const testTodo = {
   title: 'clean my room'
 };
 
-const authenticatedUser = request.agent(app);
-
 describe('GET /todo는', () => {
+  const authenticatedUser = request.agent(app);
   describe('성공시', () => {
-    let body;
+    let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
     before(() => Todo.bulkCreate([testTodo]));
@@ -32,16 +31,20 @@ describe('GET /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
     });
     it('상태코드 200을 반환한다', done => {
-      authenticatedUser.get('/todo').end((err, res) => {
-        res.status.should.be.equal(200);
-        body = res.body;
-        done();
-      });
+      authenticatedUser
+        .get('/todo')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          body = res.body;
+          done();
+        });
     });
     it('todo 정보를 가져온다', done => {
       body.should.be.Array();
@@ -49,13 +52,13 @@ describe('GET /todo는', () => {
     });
   });
   describe('실패 시', () => {
-    it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
+    it('userId가 없으면 상태코드 403과 메세지를 반환한다', done => {
       request(app)
-        .delete('/todo')
+        .get('/todo')
         .send({ id: testTodo.id })
         .end((err, res) => {
-          res.status.should.be.equal(400);
-          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          res.status.should.be.equal(403);
+          res.body.msg.should.be.equal(message.MSG_TOKEN_ERROR);
           done();
         });
     });
@@ -63,8 +66,9 @@ describe('GET /todo는', () => {
 });
 
 describe('POST /todo는', () => {
+  const authenticatedUser = request.agent(app);
   describe('성공시', () => {
-    let body;
+    let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
     it('로그인 시 상태코드 200을 반환한다', done => {
@@ -72,6 +76,7 @@ describe('POST /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
@@ -79,6 +84,7 @@ describe('POST /todo는', () => {
     it('todo 생성 시 상태코드 200을 반환한다', done => {
       authenticatedUser
         .post('/todo')
+        .set('x-access-token', token)
         .send({ title: testTodo.title })
         .end((err, res) => {
           res.status.should.be.equal(200);
@@ -92,13 +98,14 @@ describe('POST /todo는', () => {
     });
   });
   describe('실패시', () => {
-    it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
+    let token;
+    it('userId가 없으면 상태코드 403과 메세지를 반환한다', done => {
       request(app)
         .post('/todo')
         .send({ title: testTodo.title })
         .end((err, res) => {
-          res.status.should.be.equal(400);
-          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          res.status.should.be.equal(403);
+          res.body.msg.should.be.equal(message.MSG_TOKEN_ERROR);
           done();
         });
     });
@@ -107,33 +114,39 @@ describe('POST /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
     });
     it('title이 없으면 상태코드 400과 메세지를 반환한다', done => {
-      authenticatedUser.post('/todo').end((err, res) => {
-        res.status.should.be.equal(400);
-        res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
-        done();
-      });
+      authenticatedUser
+        .post('/todo')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.status.should.be.equal(400);
+          res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
+          done();
+        });
     });
     // TODO: 오늘 Todo가 10개 이상일때 등록 불가능한 로직 추가 예정
   });
 });
 
 describe('UPDATE /todo는', () => {
+  const authenticatedUser = request.agent(app);
   before(() => sequelize.sync({ force: true }));
   before(() => User.bulkCreate([testUser]));
   before(() => Todo.bulkCreate([testTodo]));
   describe('성공시', () => {
-    let body;
+    let body, token;
     const updateTitle = 'clean your room';
     it('로그인 시 상태코드 200을 반환한다', done => {
       authenticatedUser
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
@@ -141,6 +154,7 @@ describe('UPDATE /todo는', () => {
     it('변경 성공 시 상태코드 200을 리턴한다', done => {
       authenticatedUser
         .put('/todo')
+        .set('x-access-token', token)
         .send({ id: testTodo.id, title: updateTitle })
         .end((err, res) => {
           res.status.should.be.equal(200);
@@ -166,13 +180,14 @@ describe('UPDATE /todo는', () => {
     });
   });
   describe('실패시', () => {
-    it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
+    let token;
+    it('userId가 없으면 상태코드 403과 메세지를 반환한다', done => {
       request(app)
         .put('/todo')
         .send({ title: testTodo.title, id: testTodo.id })
         .end((err, res) => {
-          res.status.should.be.equal(400);
-          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          res.status.should.be.equal(403);
+          res.body.msg.should.be.equal(message.MSG_TOKEN_ERROR);
           done();
         });
     });
@@ -181,6 +196,7 @@ describe('UPDATE /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
@@ -189,6 +205,7 @@ describe('UPDATE /todo는', () => {
       authenticatedUser
         .put('/todo')
         .send({ id: testTodo.id })
+        .set('x-access-token', token)
         .end((err, res) => {
           res.status.should.be.equal(400);
           res.body.msg.should.be.equal(message.MSG_TITLE_MISSING);
@@ -199,8 +216,9 @@ describe('UPDATE /todo는', () => {
 });
 
 describe('DELETE /todo는', () => {
+  const authenticatedUser = request.agent(app);
   describe('성공 시', () => {
-    let body;
+    let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
     it('로그인 시 상태코드 200을 반환한다', done => {
@@ -208,6 +226,7 @@ describe('DELETE /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
@@ -215,6 +234,7 @@ describe('DELETE /todo는', () => {
     it('todo 삭제 시 204를 반환한다', done => {
       authenticatedUser
         .delete('/todo')
+        .set('x-access-token', token)
         .send({
           id: testTodo.id
         })
@@ -226,13 +246,14 @@ describe('DELETE /todo는', () => {
     });
   });
   describe('실패 시', () => {
+    let token;
     it('userId가 없으면 상태코드 400과 메세지를 반환한다', done => {
       request(app)
         .delete('/todo')
         .send({ id: testTodo.id })
         .end((err, res) => {
-          res.status.should.be.equal(400);
-          res.body.msg.should.be.equal(message.MSG_USERID_MISSING);
+          res.status.should.be.equal(403);
+          res.body.msg.should.be.equal(message.MSG_TOKEN_ERROR);
           done();
         });
     });
@@ -241,16 +262,20 @@ describe('DELETE /todo는', () => {
         .post('/users/login')
         .send({ userId: testUser.userId, password: testUser.password })
         .end((err, res) => {
+          token = res.body.token;
           res.status.should.be.equal(200);
           done();
         });
     });
     it('todo id가 전달되지 않았을때 400을 반환한다', done => {
-      authenticatedUser.delete('/todo').end((err, res) => {
-        res.status.should.be.equal(400);
-        res.body.msg.should.be.equal(message.MSG_ID_MISSING);
-        done();
-      });
+      authenticatedUser
+        .delete('/todo')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.status.should.be.equal(400);
+          res.body.msg.should.be.equal(message.MSG_ID_MISSING);
+          done();
+        });
     });
   });
 });

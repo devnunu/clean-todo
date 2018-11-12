@@ -2,10 +2,7 @@ const { Todo } = require('../../common/models');
 const message = require('../../common/message');
 
 const show = (req, res) => {
-  if (!req.user)
-    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
-  const userId = req.user.id;
-
+  const userId = req.token.id;
 
   Todo.findAll({
     where: { userId },
@@ -16,9 +13,7 @@ const show = (req, res) => {
 };
 
 const create = (req, res) => {
-  if (!req.user)
-    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
-  const userId = req.user.id;
+  const userId = req.token.id;
 
   const title = req.body.title;
   if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
@@ -29,9 +24,7 @@ const create = (req, res) => {
 };
 
 const update = (req, res) => {
-  if (!req.user)
-    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
-  const userId = req.user.id;
+  const userId = req.token.id;
 
   const title = req.body.title;
   if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
@@ -51,9 +44,7 @@ const update = (req, res) => {
 };
 
 const destroy = (req, res) => {
-  if (!req.user)
-    return res.status(400).send({ msg: message.MSG_USERID_MISSING });
-  const userId = req.user.id;
+  const userId = req.token.id;
 
   const id = req.body.id;
   if (typeof id !== 'number')
