@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
 // component
-import LoginForm from '../../component/form/LoginForm';
-import SignupForm from '../../component/form/SignupForm';
+import LoginForm from '../../component/loginform';
+import SignupForm from '../../component/signupform';
 
 interface AuthProps {
   action: string;
@@ -18,9 +18,7 @@ const Auth = (props: AuthProps) => {
       {props.action === 'signup' && <SignupForm />}
       <View>
         {props.action === 'login' && (
-          <Text onPress={() => props.changeAction('signup')}>
-            회원가입
-          </Text>
+          <Text onPress={() => props.changeAction('signup')}>회원가입</Text>
         )}
         {props.action === 'signup' && (
           <Text onPress={() => props.changeAction('login')}>로그인</Text>

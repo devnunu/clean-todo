@@ -52,6 +52,7 @@
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-router-flux": "^4.0.5",
-    "react-redux": "^5.1.0"
+    "react-redux": "^5.1.0",
+    "redux-thunk": "^2.3.0"
   }
 }

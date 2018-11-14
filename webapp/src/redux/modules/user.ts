@@ -34,7 +34,7 @@ const userSignup = (): ActionType => {
 
 const login = (username: string, password: string) => {
   return (dispatch: any) => {
-    fetch('/user/login/', {
+    fetch('http://localhost:3000/users/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -54,8 +54,26 @@ const login = (username: string, password: string) => {
   };
 };
 
-// reducer
+function createAccount(username, password, passwordValid) {
+  return async dispatch => {
+    fetch('http://localhost:3000/users/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        userId: username,
+        password,
+        passwordValid
+      })
+    })
+      .then(response => response.json())
+      .then(json => console.log(json)) // TODO: 배포시 삭제
+      .catch(err => console.log(err));
+  };
+}
 
+// reducer
 const reducer = async (state, action: ActionType) => {
   if (state === undefined) {
     state = {
@@ -100,7 +118,8 @@ const applyUserSignup = (state: UserState, action: ActionType) => {
 
 export const actionCreators = {
   userLogin,
-  userSignup
+  userSignup,
+  createAccount
 };
 
 export default reducer;
