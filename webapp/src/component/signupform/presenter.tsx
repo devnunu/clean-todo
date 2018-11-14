@@ -37,7 +37,7 @@ const SignupForm = (props: SignupFormProps) => {
             )
           }
         >
-          회원가입
+          회원가입하기
         </Text>
       </View>
     </View>

@@ -32,7 +32,7 @@ const userSignup = (): ActionType => {
 
 // api action
 
-const login = (username: string, password: string) => {
+const usernameLogin = (username: string, password: string) => {
   return (dispatch: any) => {
     fetch('http://localhost:3000/users/login/', {
       method: 'POST',
@@ -46,6 +46,7 @@ const login = (username: string, password: string) => {
     })
       .then(response => response.json())
       .then(json => {
+        console.log(json);
         if (json.token) {
           dispatch(saveToken(json.token));
         }
@@ -119,7 +120,8 @@ const applyUserSignup = (state: UserState, action: ActionType) => {
 export const actionCreators = {
   userLogin,
   userSignup,
-  createAccount
+  createAccount,
+  usernameLogin
 };
 
 export default reducer;
