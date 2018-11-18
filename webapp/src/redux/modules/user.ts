@@ -46,7 +46,6 @@ const usernameLogin = (username: string, password: string) => {
     })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         if (json.token) {
           dispatch(saveToken(json.token));
         }
@@ -74,32 +73,39 @@ function createAccount(username, password, passwordValid) {
   };
 }
 
+function setLoginStatus() {
+  return async (dispatch, getState) => {
+    const token = await SecureStore.getItemAsync('token');
+    dispatch(saveToken(token));
+  };
+}
+
+const initialState = {
+  isLoggedIn: false,
+  token: ''
+};
+
 // reducer
-const reducer = async (state, action: ActionType) => {
-  if (state === undefined) {
-    state = {
-      isLoggedIn: (await SecureStore.getItemAsync('token')) ? true : false,
-      token: await SecureStore.getItemAsync('token')
-    };
-  }
+const reducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case USER_LOGIN:
       return applyUserLogin(state, action);
     case USER_SIGNUP:
       return applyUserSignup(state, action);
+    case SAVE_TOKEN:
+      return applySetToken(state, action);
     default:
       return state;
   }
 };
 
 // reducer function
-const applySetToken = async (state: UserState, action: ActionType) => {
+const applySetToken = (state: UserState, action: ActionType) => {
   const { token } = action;
-  await SecureStore.setItemAsync('token', token);
+  SecureStore.setItemAsync('token', token);
   return {
-    ...state,
     isLoggedIn: true,
-    token: token
+    token
   };
 };
 
@@ -121,7 +127,8 @@ export const actionCreators = {
   userLogin,
   userSignup,
   createAccount,
-  usernameLogin
+  usernameLogin,
+  setLoginStatus
 };
 
 export default reducer;
