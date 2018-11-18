@@ -11,7 +11,6 @@ interface IntroProps {
 
 class Container extends Component<IntroProps, {}> {
   render() {
-    console.log(this.props.testStatus);
     return <Intro {...this.props} />;
   }
 }

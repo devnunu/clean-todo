@@ -5,7 +5,6 @@ import UserState from '../../model/User';
 import { actionCreators as userActions } from '../../redux/modules/user';
 
 const mapStateToProps = (state: any, ownProps: any) => {
-  console.log('state', state);
   const {
     user: { isLoggedIn }
   } = state;

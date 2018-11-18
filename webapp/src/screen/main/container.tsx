@@ -16,7 +16,6 @@ class Container extends Component<ContainerProps, ContainerState> {
     isLoading: true
   };
   render() {
-    console.log('this.props.isLoggedIn', this.props.isLoggedIn);
     return this.state.isLoading ? <LoadingView /> : <Main {...this.props} />;
   }
 
@@ -25,7 +24,6 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   componentWillReceiveProps = nextProps => {
-    console.log('isLoggedIn 123', nextProps.isLoggedIn);
     if (nextProps.isLoggedIn) {
       this.setState({
         isLoading: false

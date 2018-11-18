@@ -1,6 +1,6 @@
 import React from 'react';
 import { Router, Scene } from 'react-native-router-flux';
-import { View,Text } from 'react-native';
+import { View, Text } from 'react-native';
 
 // screen
 import Intro from '../intro';
@@ -11,7 +11,6 @@ interface MainProps {
 }
 
 const Main = (props: MainProps) => {
-  console.log('props.isLoggedIn', props.isLoggedIn);
   return props.isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />;
 };
 
@@ -34,11 +33,11 @@ const PrivateRoutes = (props: any) => (
 );
 
 export const LoadingView = (props: any) => {
-  return (<View>
-    <Text>
-      Loading...
-    </Text>
-  </View>);
+  return (
+    <View>
+      <Text>Loading...</Text>
+    </View>
+  );
 };
 
 export default Main;

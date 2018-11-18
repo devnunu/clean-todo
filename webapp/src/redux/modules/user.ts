@@ -82,7 +82,7 @@ function setLoginStatus() {
 
 const initialState = {
   isLoggedIn: false,
-  token: ''
+  token: undefined
 };
 
 // reducer
