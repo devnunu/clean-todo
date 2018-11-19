@@ -7,8 +7,8 @@ const show = (req, res) => {
   Todo.findAll({
     where: { userId },
     order: [['createdAt', 'DESC']]
-  }).then(todos => {
-    res.status(200).send(todos);
+  }).then(todoList => {
+    res.status(200).send({ todoList });
   });
 };
 

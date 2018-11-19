@@ -67,7 +67,7 @@ describe('GET /todo는', () => {
 
 describe('POST /todo는', () => {
   const authenticatedUser = request.agent(app);
-  describe('성공시', () => {
+  describe.only('성공시', () => {
     let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
@@ -281,10 +281,10 @@ describe('DELETE /todo는', () => {
 });
 
 /*
-* user의 특정 날짜의 할 일 조회
-* @method get
-* @param userId(req.user), date
-*/
+ * user의 특정 날짜의 할 일 조회
+ * @method get
+ * @param userId(req.user), date
+ */
 
 // 성공시
 // @return 200 ok, 해당 유저의 오늘 할 일 리스트 반환

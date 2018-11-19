@@ -5,6 +5,7 @@ import { View, Text } from 'react-native';
 // screen
 import Intro from '../intro';
 import Auth from '../auth';
+import Todo from '../todo'
 
 interface MainProps {
   isLoggedIn: boolean;
@@ -27,7 +28,8 @@ const PublicRoutes = (props: any) => (
 const PrivateRoutes = (props: any) => (
   <Router>
     <Scene key={'root'}>
-      <Scene key={'Intro'} component={Intro} title={'Intro'} initial={true} />
+      <Scene key={'Todo'} component={Todo} title={'Todo'} initial={true} />
+      {/* <Scene key={'Intro'} component={Intro} title={'Intro'} initial={true} /> */}
     </Scene>
   </Router>
 );
