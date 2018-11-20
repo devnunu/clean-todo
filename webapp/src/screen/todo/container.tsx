@@ -10,10 +10,12 @@ import TodoView from './presenter';
 interface ContainerProps {
   todoList: Todo[];
   getTodoList: () => void;
+  createTodo: (todoTitle: string) => void;
 }
 
 interface ContainerState {
   isLoading: boolean;
+  todoTitle: string;
 }
 
 class Container extends Component<ContainerProps, ContainerState> {
@@ -27,7 +29,12 @@ class Container extends Component<ContainerProps, ContainerState> {
         <Text>Loading...</Text>
       </View>
     ) : (
-      <TodoView />
+      <TodoView
+        todoTitle={this.state.todoTitle}
+        todoList={this.props.todoList}
+        onChangeTodoTitle={this._onChangeTodoTitle}
+        onPressCreateTodo={this._handleCreateTodo}
+      />
     );
   }
 
@@ -37,6 +44,14 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   componentWillReceiveProps = (nextProps: ContainerProps) => {
     if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
+  };
+
+  private _onChangeTodoTitle = (todoTitle: string): void =>
+    this.setState({ ...this.state, todoTitle });
+
+  private _handleCreateTodo = (): void => {
+    this.props.createTodo(this.state.todoTitle);
+    this.setState({ ...this.state, todoTitle: undefined });
   };
 }
 

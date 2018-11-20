@@ -15,7 +15,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
-    getTodoList: () => dispatch(todoActions.getTodoList())
+    getTodoList: () => dispatch(todoActions.getTodoList()),
+    createTodo: (todoTitle: string) =>
+      dispatch(todoActions.createTodo(todoTitle))
   };
 };
 

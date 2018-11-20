@@ -16,10 +16,11 @@ const create = (req, res) => {
   const userId = req.token.id;
 
   const title = req.body.title;
+  
   if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
 
   Todo.create({ userId, title }).then(todo => {
-    res.status(200).json(todo);
+    res.status(200).send({ todo });
   });
 };
 

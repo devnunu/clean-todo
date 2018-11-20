@@ -56,8 +56,8 @@ const createTodo = (title: string) => {
     })
       .then(response => response.json())
       .then(json => {
-        if (json.token) {
-          //   dispatch(saveToken(json.token));
+        if (json.todo) {
+          dispatch(addTodo(json.todo));
         }
       })
       .catch(err => console.log(err));
@@ -73,6 +73,8 @@ const reducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case SET_TODO_LIST:
       return applySetTodoList(state, action);
+    case ADD_TODO:
+      return applyAddtodo(state, action);
     default:
       return state;
   }
@@ -85,6 +87,11 @@ const applySetTodoList = (state: TodoState, action) => {
     ...state,
     todoList
   };
+};
+
+const applyAddtodo = (state: TodoState, action) => {
+  const todoList = [action.todo, ...state.todoList];
+  return { ...state, todoList };
 };
 
 // export

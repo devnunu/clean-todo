@@ -1,12 +1,9 @@
 import { ActionType } from '../../model/Common';
 import UserState from '../../model/User';
-import { string } from 'prop-types';
 import { SecureStore } from 'expo';
 
 // action
 
-const USER_LOGIN = 'USER_LOGIN';
-const USER_SIGNUP = 'USER_SIGNUP';
 const SAVE_TOKEN = 'SAVE_TOKEN';
 
 // action creater
@@ -15,18 +12,6 @@ const saveToken = (token: string) => {
   return {
     type: SAVE_TOKEN,
     token
-  };
-};
-
-const userLogin = (): ActionType => {
-  return {
-    type: USER_LOGIN
-  };
-};
-
-const userSignup = (): ActionType => {
-  return {
-    type: USER_SIGNUP
   };
 };
 
@@ -88,10 +73,6 @@ const initialState = {
 // reducer
 const reducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
-    case USER_LOGIN:
-      return applyUserLogin(state, action);
-    case USER_SIGNUP:
-      return applyUserSignup(state, action);
     case SAVE_TOKEN:
       return applySetToken(state, action);
     default:
@@ -109,23 +90,9 @@ const applySetToken = (state: UserState, action: ActionType) => {
   };
 };
 
-const applyUserLogin = (state: UserState, action: ActionType) => {
-  return {
-    ...state
-  };
-};
-
-const applyUserSignup = (state: UserState, action: ActionType) => {
-  return {
-    ...state
-  };
-};
-
 // export
 
 export const actionCreators = {
-  userLogin,
-  userSignup,
   createAccount,
   usernameLogin,
   setLoginStatus

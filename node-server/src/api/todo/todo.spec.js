@@ -93,7 +93,7 @@ describe('POST /todo는', () => {
         });
     });
     it('생성된 todo 객체를 반환한다', done => {
-      body.should.be.properties(['id', 'userId', 'title']);
+      body.todo.should.be.properties(['id', 'userId', 'title']);
       done();
     });
   });
