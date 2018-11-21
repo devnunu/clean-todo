@@ -16,7 +16,7 @@ const create = (req, res) => {
   const userId = req.token.id;
 
   const title = req.body.title;
-  
+
   if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
 
   Todo.create({ userId, title }).then(todo => {
@@ -27,9 +27,6 @@ const create = (req, res) => {
 const update = (req, res) => {
   const userId = req.token.id;
 
-  const title = req.body.title;
-  if (!title) return res.status(400).send({ msg: message.MSG_TITLE_MISSING });
-
   const id = req.body.id;
   if (typeof id !== 'number')
     return res.status(400).send({ msg: message.MSG_ID_MISSING });
@@ -37,9 +34,9 @@ const update = (req, res) => {
   Todo.findOne({ where: { id } }).then(todo => {
     if (!todo) return res.status(404).end();
 
-    todo.title = title;
+    todo.completed = !todo.completed;
     todo.save().then(todo => {
-      res.status(200).json(todo);
+      res.status(200).send({ todo });
     });
   });
 };

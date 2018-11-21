@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = new Sequelize({
   dialect: 'sqlite',
   storage: './db.sqlite',
-  logging: false,
+  logging: false
 });
 
 const User = sequelize.define(
@@ -11,20 +11,20 @@ const User = sequelize.define(
     id: {
       type: Sequelize.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
     userId: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
   },
   {
     tableName: 'user',
-    freezeTableName: true,
+    freezeTableName: true
   }
 );
 
@@ -35,23 +35,27 @@ const Todo = sequelize.define(
       type: Sequelize.INTEGER,
       autoIncrement: true,
       allowNull: false,
-      primaryKey: true,
+      primaryKey: true
     },
     userId: {
       type: Sequelize.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
     title: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: false
     },
+    completed: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }
   },
   {
     tableName: 'todo',
-    freezeTableName: true,
+    freezeTableName: true
   }
 );
-
 
 // CAUTION: foreignKey는 underscore를 사용하자. 그렇지 않으면 에러 발생
 Todo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
@@ -59,5 +63,5 @@ Todo.belongsTo(User, { foreignKey: 'user_id', targetKey: 'id' });
 module.exports = {
   sequelize,
   User,
-  Todo,
+  Todo
 };

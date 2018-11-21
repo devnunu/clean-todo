@@ -67,7 +67,7 @@ describe('GET /todo는', () => {
 
 describe('POST /todo는', () => {
   const authenticatedUser = request.agent(app);
-  describe.only('성공시', () => {
+  describe('성공시', () => {
     let body, token;
     before(() => sequelize.sync({ force: true }));
     before(() => User.bulkCreate([testUser]));
@@ -138,9 +138,8 @@ describe('UPDATE /todo는', () => {
   before(() => sequelize.sync({ force: true }));
   before(() => User.bulkCreate([testUser]));
   before(() => Todo.bulkCreate([testTodo]));
-  describe('성공시', () => {
+  describe.only('성공시', () => {
     let body, token;
-    const updateTitle = 'clean your room';
     it('로그인 시 상태코드 200을 반환한다', done => {
       authenticatedUser
         .post('/users/login')
@@ -155,7 +154,7 @@ describe('UPDATE /todo는', () => {
       authenticatedUser
         .put('/todo')
         .set('x-access-token', token)
-        .send({ id: testTodo.id, title: updateTitle })
+        .send({ id: testTodo.id })
         .end((err, res) => {
           res.status.should.be.equal(200);
           body = res.body;
@@ -163,19 +162,19 @@ describe('UPDATE /todo는', () => {
         });
     });
     it('todo 객체를 리턴한다', done => {
-      body.should.have.properties(['id', 'userId', 'title']);
+      body.todo.should.have.properties(['id', 'userId', 'title']);
       done();
     });
     it('id는 이전 입력된 값과 동일해야한다', done => {
-      body.id.should.be.equal(0);
+      body.todo.id.should.be.equal(0);
       done();
     });
     it('userId는 이전 입력된 값과 동일해야한다', done => {
-      body.userId.should.be.equal(0);
+      body.todo.userId.should.be.equal(0);
       done();
     });
-    it('title은 변경된 값과 동일해야한다', done => {
-      body.title.should.be.equal(updateTitle);
+    it('completed는 변경된 값과 동일해야한다', done => {
+      body.todo.completed.should.be.equal(true);
       done();
     });
   });
