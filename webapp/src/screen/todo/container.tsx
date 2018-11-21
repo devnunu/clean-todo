@@ -11,6 +11,7 @@ interface ContainerProps {
   todoList: Todo[];
   getTodoList: () => void;
   createTodo: (todoTitle: string) => void;
+  updateTodoComplte: (id: number) => void;
 }
 
 interface ContainerState {
@@ -34,6 +35,7 @@ class Container extends Component<ContainerProps, ContainerState> {
         todoList={this.props.todoList}
         onChangeTodoTitle={this._onChangeTodoTitle}
         onPressCreateTodo={this._handleCreateTodo}
+        onPressTodoCheckBox={this.props.updateTodoComplte} 
       />
     );
   }

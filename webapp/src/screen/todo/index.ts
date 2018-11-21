@@ -17,7 +17,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
     getTodoList: () => dispatch(todoActions.getTodoList()),
     createTodo: (todoTitle: string) =>
-      dispatch(todoActions.createTodo(todoTitle))
+      dispatch(todoActions.createTodo(todoTitle)),
+    updateTodoComplte: (id: number) =>
+      dispatch(todoActions.updateTodoComplte(id))
   };
 };
 

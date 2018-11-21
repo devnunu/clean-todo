@@ -4,6 +4,7 @@ interface Todo {
   title: string;
   updateAt: string;
   createdAt: string;
+  completed: boolean;
 }
 
 export interface TodoState {

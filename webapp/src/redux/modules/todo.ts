@@ -6,6 +6,7 @@ import Todo, { TodoState } from '../../model/Todo';
 
 const ADD_TODO = 'ADD_TODO';
 const SET_TODO_LIST = 'SET_TODO_LIST';
+const UPDATE_TODO = 'UPDATE_TODO';
 
 // action creater
 
@@ -23,7 +24,34 @@ const setTodoList = (todoList: Todo[]) => {
   };
 };
 
+const updateTodo = (todo: Todo) => {
+  return {
+    type: UPDATE_TODO,
+    todo
+  };
+};
+
 // api action
+
+const updateTodoComplte = (id: number) => {
+  return (dispatch, getState) => {
+    fetch('http://localhost:3000/todo/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': getState().user.token
+      },
+      body: JSON.stringify({
+        id
+      })
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.todo) dispatch(updateTodo(json.todo));
+      })
+      .catch(err => console.log(err));
+  };
+};
 
 const getTodoList = () => {
   return (dispatch, getState) => {
@@ -74,7 +102,9 @@ const reducer = (state = initialState, action: ActionType) => {
     case SET_TODO_LIST:
       return applySetTodoList(state, action);
     case ADD_TODO:
-      return applyAddtodo(state, action);
+      return applyAddTodo(state, action);
+    case UPDATE_TODO:
+      return applyUpdateTodo(state, action);
     default:
       return state;
   }
@@ -89,16 +119,25 @@ const applySetTodoList = (state: TodoState, action) => {
   };
 };
 
-const applyAddtodo = (state: TodoState, action) => {
+const applyAddTodo = (state: TodoState, action) => {
   const todoList = [action.todo, ...state.todoList];
   return { ...state, todoList };
+};
+
+const applyUpdateTodo = (state: TodoState, action) => {
+  const newTodoList = state.todoList.map(todo =>
+    todo.id === action.todo.id ? action.todo : todo
+  );
+
+  return { ...state, todoList: newTodoList };
 };
 
 // export
 
 export const actionCreators = {
   getTodoList,
-  createTodo
+  createTodo,
+  updateTodoComplte
 };
 
 export default reducer;
