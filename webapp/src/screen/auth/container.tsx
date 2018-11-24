@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
 
 // presenter
 import User from './presenter';
