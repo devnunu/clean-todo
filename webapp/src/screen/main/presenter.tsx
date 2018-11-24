@@ -9,6 +9,9 @@ import Auth from '../auth';
 import Todo from '../todo';
 import Timeline from '../timeline';
 
+// style
+import color from '../../common/assets/style/color';
+
 interface MainProps {
   isLoggedIn: boolean;
 }
@@ -48,7 +51,12 @@ const PrivateRoutes = (props: any) => (
 
 const mainTab = (props: any) => {
   return (
-    <ScrollableTabView style={styles.tabView}>
+    <ScrollableTabView
+      style={styles.tabView}
+      tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
+      tabBarActiveTextColor={color.mild_green}
+      tabBarInactiveTextColor={color.gray}
+    >
       <Todo tabLabel="Todo" />
       <Timeline tabLabel="Timeline" />
     </ScrollableTabView>
@@ -66,6 +74,9 @@ const styles = StyleSheet.create({
         paddingTop: 0
       }
     )
+  },
+  tabBarUnderlineStyle: {
+    backgroundColor: color.mild_green
   }
 });
 

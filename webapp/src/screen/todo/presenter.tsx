@@ -11,6 +11,9 @@ import {
 // model
 import Todo from '../../model/Todo';
 
+// style
+import color from '../../common/assets/style/color';
+
 interface TodoProps {
   todoTitle: string;
   todoList: Todo[];
@@ -33,7 +36,7 @@ const TodoView = (props: TodoProps) => {
           onPress={props.onPressCreateTodo}
         >
           <Image
-            style={{ flexShrink: 1 }}
+            style={{ width: 30, height: 30 }}
             resizeMode={'cover'}
             source={require('../../common/assets/images/button_add.png')}
           />
@@ -52,16 +55,13 @@ const TodoView = (props: TodoProps) => {
 const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
   return (
     <View key={index} style={styles.todoItemView}>
-      <TouchableOpacity
-        onPress={() => props.onPressTodoCheckBox(todoItem.id)}
-        // style={[
-        //   styles.todoItemCheckBox,
-        //   todoItem.completed && styles.todoItemCheckBoxComplete
-        // ]}
-      >
+      <TouchableOpacity onPress={() => props.onPressTodoCheckBox(todoItem.id)}>
         <Image
-          style={styles.checkBoxImg}
-          resizeMode={'cover'}
+          style={{
+            width: 25,
+            height: 25,
+            marginRight: 10
+          }}
           source={
             todoItem.completed
               ? require('../../common/assets/images/icon_check.png')
@@ -70,7 +70,14 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
         />
       </TouchableOpacity>
       <View>
-        <Text>{todoItem.title}</Text>
+        <Text
+          style={[
+            styles.todoItemText,
+            todoItem.completed && styles.todoItemTextComplete
+          ]}
+        >
+          {todoItem.title}
+        </Text>
       </View>
     </View>
   );
@@ -84,26 +91,28 @@ const styles = StyleSheet.create({
   },
   todoTextInput: {
     flex: 7,
-    borderColor: 'gray',
-    borderBottomWidth: 0.3,
-    paddingHorizontal: 10,
-    paddingVertical: 5
+    borderColor: color.gray,
+    borderBottomWidth: 0.2,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 18
   },
   todoSubmitButton: {
     display: 'flex',
-    flex: 2,
+    flex: 1.5,
     position: 'relative',
-    backgroundColor: 'gray',
-    alignItems: 'center'
+    backgroundColor: color.mild_green,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   // todoTitle
   todoTitleView: {
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
+    borderBottomColor: color.gray,
+    borderBottomWidth: 1.5,
     paddingVertical: 10
   },
   todoTitle: {
-    color: 'gray',
+    color: color.gray,
     fontSize: 14,
     paddingLeft: 10
   },
@@ -118,21 +127,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 16,
     paddingHorizontal: 10,
-    borderBottomColor: 'gray',
+    borderBottomColor: color.gray,
     borderBottomWidth: 0.5,
     alignItems: 'center'
   },
-  checkBoxImg: {
-    width: 25,
-    height: 25,
-    marginRight: 10
+  todoItemText: {
+    fontSize: 18
+  },
+  todoItemTextComplete: {
+    color: '#999999',
+    textDecorationLine: 'line-through',
+    textDecorationStyle: 'solid'
   }
-  // todoItemCheckBox: {
-  //   backgroundColor: 'black'
-  // },
-  // todoItemCheckBoxComplete: {
-  //   backgroundColor: 'green'
-  // }
 });
 
 export default TodoView;
