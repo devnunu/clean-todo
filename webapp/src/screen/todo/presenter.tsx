@@ -40,6 +40,9 @@ const TodoView = (props: TodoProps) => {
         </TouchableOpacity>
       </View>
       <View style={styles.todoListView}>
+        <View style={styles.todoTitleView}>
+          <Text style={styles.todoTitle}>Todo</Text>
+        </View>
         {props.todoList.map((item, index) => TodoItemView(props, item, index))}
       </View>
     </View>
@@ -49,17 +52,23 @@ const TodoView = (props: TodoProps) => {
 const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
   return (
     <View key={index} style={styles.todoItemView}>
-      <View
-        style={
-          todoItem.completed
-            ? styles.todoItemCheckBoxComplete
-            : styles.todoItemCheckBox
-        }
+      <TouchableOpacity
+        onPress={() => props.onPressTodoCheckBox(todoItem.id)}
+        // style={[
+        //   styles.todoItemCheckBox,
+        //   todoItem.completed && styles.todoItemCheckBoxComplete
+        // ]}
       >
-        <Text onPress={() => props.onPressTodoCheckBox(todoItem.id)}>
-          {'체크'}
-        </Text>
-      </View>
+        <Image
+          style={styles.checkBoxImg}
+          resizeMode={'cover'}
+          source={
+            todoItem.completed
+              ? require('../../common/assets/images/icon_check.png')
+              : require('../../common/assets/images/icon_square.png')
+          }
+        />
+      </TouchableOpacity>
       <View>
         <Text>{todoItem.title}</Text>
       </View>
@@ -87,27 +96,43 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     alignItems: 'center'
   },
+  // todoTitle
+  todoTitleView: {
+    borderBottomColor: 'gray',
+    borderBottomWidth: 1,
+    paddingVertical: 10
+  },
+  todoTitle: {
+    color: 'gray',
+    fontSize: 14,
+    paddingLeft: 10
+  },
   // todoListView
   todoListView: {
-    paddingVertical: 20,
-    paddingHorizontal: 16
+    paddingVertical: 5,
+    paddingHorizontal: 10
   },
   // todoItem
   todoItemView: {
     display: 'flex',
     flexDirection: 'row',
-    paddingVertical: 10,
+    paddingVertical: 16,
     paddingHorizontal: 10,
-    marginBottom: 10,
-    borderColor: 'gray',
-    borderWidth: 1
+    borderBottomColor: 'gray',
+    borderBottomWidth: 0.5,
+    alignItems: 'center'
   },
-  todoItemCheckBox: {
-    backgroundColor: 'black'
-  },
-  todoItemCheckBoxComplete: {
-    backgroundColor: 'green'
+  checkBoxImg: {
+    width: 25,
+    height: 25,
+    marginRight: 10
   }
+  // todoItemCheckBox: {
+  //   backgroundColor: 'black'
+  // },
+  // todoItemCheckBoxComplete: {
+  //   backgroundColor: 'green'
+  // }
 });
 
 export default TodoView;
