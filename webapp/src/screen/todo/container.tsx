@@ -43,6 +43,10 @@ class Container extends Component<ContainerProps, ContainerState> {
     this.props.getTodoList();
   }
 
+  componentDidUpdate() {
+    this.props.getTodoList();
+  }
+
   componentWillReceiveProps = (nextProps: ContainerProps) => {
     if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
   };
