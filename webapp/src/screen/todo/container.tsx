@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { AppState, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 
 // model
 import Todo from '../../model/Todo';
 
 // view
 import TodoView from './presenter';
+
 
 interface ContainerProps {
   todoList: Todo[];
@@ -42,19 +43,10 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   componentDidMount() {
     this.props.getTodoList();
-    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillReceiveProps = (nextProps: ContainerProps) => {
     if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
-  };
-
-  componentWillUnmount() {
-    AppState.removeEventListener('change', this._handleAppStateChange);
-  }
-
-  _handleAppStateChange = nextAppState => {
-    console.log('good');
   };
 
   private _onChangeTodoTitle = (todoTitle: string): void =>

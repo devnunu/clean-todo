@@ -8,9 +8,11 @@ import {
   StyleSheet
 } from 'react-native';
 
-
 // model
 import Todo from '../../model/Todo';
+
+// view
+import TodoEmptyView from '../../component/todoEmpty';
 
 // style
 import color from '../../common/assets/style/color';
@@ -43,12 +45,18 @@ const TodoView = (props: TodoProps) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={styles.todoListView}>
-        <View style={styles.todoTitleView}>
-          <Text style={styles.todoTitle}>Todo</Text>
+      {!props.todoList.length ? (
+        <TodoEmptyView />
+      ) : (
+        <View style={styles.todoListView}>
+          <View style={styles.todoTitleView}>
+            <Text style={styles.todoTitle}>Todo</Text>
+          </View>
+          {props.todoList.map((item, index) =>
+            TodoItemView(props, item, index)
+          )}
         </View>
-        {props.todoList.map((item, index) => TodoItemView(props, item, index))}
-      </View>
+      )}
     </View>
   );
 };

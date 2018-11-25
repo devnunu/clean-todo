@@ -11,6 +11,9 @@ const TimelineView = (props: any) => {
   const sortedKeys = Object.keys(props.todoList).sort();
   return (
     <View style={styles.timelineView}>
+      <View style={styles.timelineTitleView}>
+        <Text style={styles.timelineTitle}>Timeline</Text>
+      </View>
       <View>
         {sortedKeys.map((key, index) => {
           return renderTimelineItem(props.todoList[key], key, index);
@@ -69,6 +72,13 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
 const styles = StyleSheet.create({
   timelineView: {
     display: 'flex'
+  },
+  timelineTitleView: {
+    paddingHorizontal: 16,
+    paddingVertical: 10
+  },
+  timelineTitle: {
+    fontSize: 18
   },
   // date title
   dateTitleView: {
