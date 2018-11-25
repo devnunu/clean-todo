@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Container from './container';
 
 import { actionCreators as userActions } from '../redux/modules/user';
+import { actionCreators as todoActions } from '../redux/modules/todo';
 
 const mapStateToProps = (state: any, ownProps: any) => {
   const {
@@ -14,7 +15,9 @@ const mapStateToProps = (state: any, ownProps: any) => {
 
 const mapDispatchToProps = (dispatch: any, ownProps: any) => {
   return {
-    setLoginStatus: () => dispatch(userActions.setLoginStatus())
+    setLoginStatus: () => dispatch(userActions.setLoginStatus()),
+    getTodoTimeline: () => dispatch(todoActions.getTodoTimeline()),
+    getTodoList: () => dispatch(todoActions.getTodoList())
   };
 };
 

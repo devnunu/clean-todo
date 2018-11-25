@@ -7,6 +7,8 @@ import LoadingView from '../component/loading';
 interface ContainerProps {
   isLoggedIn: boolean;
   setLoginStatus: () => void;
+  getTodoTimeline: () => void;
+  getTodoList: () => void;
 }
 
 interface ContainerState {
@@ -14,6 +16,9 @@ interface ContainerState {
 }
 
 class Container extends Component<ContainerProps, ContainerState> {
+  INDEX_OF_TODO = 0;
+  INDEX_OF_TIMELINE = 1;
+
   state = {
     ...this.state,
     isLoading: true
@@ -31,15 +36,16 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.isLoggedIn) {
+    if (nextProps.isLoggedIn !== undefined) {
       this.setState({
         isLoading: false
       });
     }
   };
 
-  private _onChangeTab = (index, ref) => {
-    console.log('changeTab');
+  private _onChangeTab = tabIndex => {
+    if (tabIndex === this.INDEX_OF_TODO) this.props.getTodoList();
+    else if (tabIndex === this.INDEX_OF_TIMELINE) this.props.getTodoTimeline();
   };
 }
 

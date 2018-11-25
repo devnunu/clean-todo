@@ -66,7 +66,7 @@ function setLoginStatus() {
 }
 
 const initialState = {
-  isLoggedIn: false,
+  isLoggedIn: undefined,
   token: undefined
 };
 
@@ -85,7 +85,8 @@ const applySetToken = (state: UserState, action: ActionType) => {
   const { token } = action;
   SecureStore.setItemAsync('token', token);
   return {
-    isLoggedIn: true,
+    // isLoggedIn: token !== undefined,
+    isLoggedIn: false,
     token
   };
 };

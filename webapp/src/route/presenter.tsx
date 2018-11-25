@@ -14,7 +14,7 @@ import color from '../common/assets/style/color';
 
 interface MainProps {
   isLoggedIn: boolean;
-  onChangeTab: (index, ref) => void;
+  onChangeTab: (event) => void;
 }
 
 const Main = (props: MainProps) => {
@@ -26,7 +26,7 @@ const Main = (props: MainProps) => {
 };
 
 // 로그인 하지 않았을 때 루트
-const PublicRoutes = (props: any) => (
+const PublicRoutes = (props: MainProps) => (
   <Router>
     <Scene key={'root'}>
       <Scene
@@ -41,7 +41,7 @@ const PublicRoutes = (props: any) => (
 );
 
 // 로그인 되었을 때 루트
-const PrivateRoutes = (props: any) => (
+const PrivateRoutes = (props: MainProps) => (
   <Router>
     <Scene key={'root'}>
       <Scene
@@ -49,12 +49,13 @@ const PrivateRoutes = (props: any) => (
         component={mainTab}
         initial={true}
         hideNavBar={true}
+        {...props}
       />
     </Scene>
   </Router>
 );
 
-const mainTab = (props: any) => {
+const mainTab = (props: MainProps) => {
   return (
     <ScrollableTabView
       style={styles.tabView}
@@ -62,6 +63,7 @@ const mainTab = (props: any) => {
       tabBarActiveTextColor={color.mild_green}
       tabBarInactiveTextColor={color.gray}
       tabBarTextStyle={{ fontSize: 16 }}
+      onChangeTab={event => props.onChangeTab(event.i)}
     >
       <Todo tabLabel="Todo" />
       <Timeline tabLabel="Timeline" />
