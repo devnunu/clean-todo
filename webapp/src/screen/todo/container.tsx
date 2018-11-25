@@ -14,12 +14,14 @@ interface ContainerProps {
   getTodoList: () => void;
   createTodo: (todoTitle: string) => void;
   updateTodoComplte: (id: number) => void;
+  deleteTodo: (todoId: number) => void;
 }
 
 interface ContainerState {
   isLoading: boolean;
   todoTitle: string;
   isModalOpen: boolean;
+  selItemId: number;
 }
 
 class Container extends Component<ContainerProps, ContainerState> {
@@ -44,7 +46,7 @@ class Container extends Component<ContainerProps, ContainerState> {
         <DeleteModal
           isModalOpen={this.state.isModalOpen}
           onPressCancel={this._onPressModalCancel}
-          onPressConfirm={this._onPressModalConfirm}
+          onPressDelete={this._onPressModalDelete}
         />
       </View>
     );
@@ -74,12 +76,13 @@ class Container extends Component<ContainerProps, ContainerState> {
     this.setState({ ...this.state, isModalOpen: false });
   };
 
-  private _onPressModalConfirm = () => {
+  private _onPressModalDelete = () => {
+    this.props.deleteTodo(this.state.selItemId);
     this.setState({ ...this.state, isModalOpen: false });
   };
 
-  private _onLongPressItem = () => {
-    this.setState({ ...this.state, isModalOpen: true });
+  private _onLongPressItem = (todoId: number) => {
+    this.setState({ ...this.state, isModalOpen: true, selItemId: todoId });
   };
 }
 

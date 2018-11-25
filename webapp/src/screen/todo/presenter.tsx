@@ -23,7 +23,7 @@ interface TodoProps {
   onChangeTodoTitle: (todoTitle) => void;
   onPressCreateTodo: () => void;
   onPressTodoCheckBox: (id: number) => void;
-  onLongPressItem: () => void;
+  onLongPressItem: (todoId: number) => void;
 }
 
 const TodoView = (props: TodoProps) => {
@@ -67,9 +67,19 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
     <TouchableOpacity
       key={index}
       style={styles.todoItemView}
-      onLongPress={props.onLongPressItem}
+      onLongPress={
+        !todoItem.completed
+          ? () => {
+              props.onLongPressItem(todoItem.id);
+            }
+          : null
+      }
     >
-      <TouchableOpacity onPress={() => props.onPressTodoCheckBox(todoItem.id)}>
+      <TouchableOpacity
+        onPress={() => {
+          props.onPressTodoCheckBox(todoItem.id);
+        }}
+      >
         <Image
           style={{
             width: 25,

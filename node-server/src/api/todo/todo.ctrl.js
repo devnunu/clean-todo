@@ -75,7 +75,7 @@ const destroy = (req, res) => {
     return res.status(400).send({ msg: message.MSG_ID_MISSING });
 
   Todo.destroy({ where: { id } }).then(todoId => {
-    res.status(204).end();
+    res.status(204).send({ todoId });
   });
 };
 

@@ -13,7 +13,7 @@ import color from '../../common/assets/style/color';
 
 interface DeleteModalProps {
   isModalOpen: boolean;
-  onPressConfirm: () => void;
+  onPressDelete: () => void;
   onPressCancel: () => void;
 }
 
@@ -40,7 +40,7 @@ const DeleteModal = (props: DeleteModalProps) => {
           <TouchableHighlight
             style={styles.buttonArea}
             onPress={() => {
-              props.onPressCancel();
+              props.onPressDelete();
             }}
           >
             <Text style={[styles.buttonText, styles.deleteButtonText]}>

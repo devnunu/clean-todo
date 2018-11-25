@@ -19,7 +19,8 @@ const mapDispatchToProps = (dispatch: any, ownProps: any) => {
     createTodo: (todoTitle: string) =>
       dispatch(todoActions.createTodo(todoTitle)),
     updateTodoComplte: (id: number) =>
-      dispatch(todoActions.updateTodoComplte(id))
+      dispatch(todoActions.updateTodoComplte(id)),
+    deleteTodo: (todoId: number) => dispatch(todoActions.deleteTodo(todoId))
   };
 };
 

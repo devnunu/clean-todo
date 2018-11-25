@@ -4,10 +4,11 @@ import Todo, { TodoState } from '../../model/Todo';
 
 // action
 
-const ADD_TODO = 'ADD_TODO';
 const SET_TODO_LIST = 'SET_TODO_LIST';
 const SET_TODO_TIMELINE = 'SET_TODO_TIMELINE';
+const ADD_TODO = 'ADD_TODO';
 const UPDATE_TODO = 'UPDATE_TODO';
+const REMOVE_TODO = 'REMOVE_TODO';
 
 // action creater
 
@@ -15,6 +16,12 @@ const addTodo = (todo: Todo) => {
   return {
     type: ADD_TODO,
     todo
+  };
+};
+const removeTodo = (todoId: number) => {
+  return {
+    type: REMOVE_TODO,
+    todoId
   };
 };
 
@@ -117,6 +124,25 @@ const createTodo = (title: string) => {
   };
 };
 
+const deleteTodo = (id: number) => {
+  return (dispatch, getState) => {
+    fetch('http://localhost:3000/todo/', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': getState().user.token
+      },
+      body: JSON.stringify({
+        id
+      })
+    })
+      .then(() => {
+        dispatch(removeTodo(id));
+      })
+      .catch(err => console.log(err));
+  };
+};
+
 const initialState: TodoState = {
   todoList: undefined,
   todoTimeline: undefined
@@ -133,6 +159,8 @@ const reducer = (state = initialState, action: ActionType) => {
       return applyAddTodo(state, action);
     case UPDATE_TODO:
       return applyUpdateTodo(state, action);
+    case REMOVE_TODO:
+      return applyRemoveTodo(state, action);
     default:
       return state;
   }
@@ -168,13 +196,19 @@ const applyUpdateTodo = (state: TodoState, action) => {
   return { ...state, todoList: newTodoList };
 };
 
+const applyRemoveTodo = (state: TodoState, action) => {
+  const newTodoList = state.todoList.filter(todo => todo.id !== action.todoId);
+  return { ...state, todoList: newTodoList };
+};
+
 // export
 
 export const actionCreators = {
   getTodoList,
   getTodoTimeline,
   createTodo,
-  updateTodoComplte
+  updateTodoComplte,
+  deleteTodo
 };
 
 export default reducer;

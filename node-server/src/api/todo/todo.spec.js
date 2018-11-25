@@ -260,7 +260,7 @@ describe('UPDATE /todo는', () => {
   });
 });
 
-describe('DELETE /todo는', () => {
+describe.only('DELETE /todo는', () => {
   const authenticatedUser = request.agent(app);
   describe('성공 시', () => {
     let body, token;
