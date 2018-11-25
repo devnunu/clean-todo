@@ -1,11 +1,47 @@
 import React, { Component } from 'react';
 
-// view
-import Timeline from './presenter';
+// model
+import Todo from '../../model/Todo';
 
-class Container extends Component<{}, {}> {
+// view
+import TimelineView from './presenter';
+
+interface ContainerProps {
+  todoList: Todo[];
+  getTodoTimeline: () => void;
+}
+
+interface ContainerState {
+  isLoading: boolean;
+}
+
+class Container extends Component<ContainerProps, ContainerState> {
+  state = {
+    ...this.state,
+    isLoading: true
+  };
   render() {
-    return <Timeline />;
+    return (
+      <TimelineView
+        todoList={this.convertTodoListToDateObject(this.props.todoList)}
+      />
+    );
+  }
+
+  componentDidMount() {
+    this.props.getTodoTimeline();
+  }
+
+  componentWillReceiveProps = (nextProps: ContainerProps) => {
+    if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
+  };
+
+  convertTodoListToDateObject(todoList: Todo[]) {
+    return todoList.reduce(function(a, e) {
+      let estKey = e['createdAt'].split(' ')[0];
+      (a[estKey] ? a[estKey] : (a[estKey] = null || [])).push(e);
+      return a;
+    }, {});
   }
 }
 

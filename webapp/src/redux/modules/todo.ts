@@ -55,7 +55,24 @@ const updateTodoComplte = (id: number) => {
 
 const getTodoList = () => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/', {
+    fetch('http://localhost:3000/todo/today', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': getState().user.token
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.todoList) dispatch(setTodoList(json.todoList));
+      })
+      .catch(err => console.log(err));
+  };
+};
+
+const getTodoTimeline = () => {
+  return (dispatch, getState) => {
+    fetch('http://localhost:3000/todo/all/complete', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -136,6 +153,7 @@ const applyUpdateTodo = (state: TodoState, action) => {
 
 export const actionCreators = {
   getTodoList,
+  getTodoTimeline,
   createTodo,
   updateTodoComplte
 };

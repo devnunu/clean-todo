@@ -10,9 +10,12 @@ const showToday = (req, res) => {
   Todo.findAll({
     where: {
       userId,
-      createdAt: {
-        gt: dateUtil.getTodayStartDate(),
-        lt: dateUtil.getTodayEndDate()
+      $or: {
+        completed: false,
+        updatedAt: {
+          gt: dateUtil.getTodayStartDate(),
+          lt: dateUtil.getTodayEndDate()
+        }
       }
     },
     order: [['createdAt', 'DESC']]
@@ -26,7 +29,8 @@ const showAll = (req, res) => {
 
   Todo.findAll({
     where: {
-      userId
+      userId,
+      completed: true
     },
     order: [['createdAt', 'DESC']]
   }).then(todoList => {

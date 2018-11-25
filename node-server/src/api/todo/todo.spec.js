@@ -65,7 +65,7 @@ describe('GET /todo는', () => {
   });
 });
 
-describe.only('GET /todo는', () => {
+describe('GET /todo는', () => {
   const authenticatedUser = request.agent(app);
   describe('성공시', () => {
     let body, token;

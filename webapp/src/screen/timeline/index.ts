@@ -1,8 +1,24 @@
 import { connect } from 'react-redux';
 import Container from './container';
 
+import { actionCreators as todoActions } from '../../redux/modules/todo';
+
 const mapStateToProps = (state, ownProps) => {
-  return {}; 
+  const {
+    todo: { todoList }
+  } = state;
+  return {
+    todoList
+  };
 };
 
-export default connect(mapStateToProps)(Container);
+const mapDispatchToProps = (dispatch: any, ownProps: any) => {
+  return {
+    getTodoTimeline: () => dispatch(todoActions.getTodoTimeline())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

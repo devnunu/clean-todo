@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { AppState, View, Text } from 'react-native';
 
 // model
 import Todo from '../../model/Todo';
@@ -35,17 +35,26 @@ class Container extends Component<ContainerProps, ContainerState> {
         todoList={this.props.todoList}
         onChangeTodoTitle={this._onChangeTodoTitle}
         onPressCreateTodo={this._handleCreateTodo}
-        onPressTodoCheckBox={this.props.updateTodoComplte} 
+        onPressTodoCheckBox={this.props.updateTodoComplte}
       />
     );
   }
 
   componentDidMount() {
     this.props.getTodoList();
+    AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillReceiveProps = (nextProps: ContainerProps) => {
     if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
+  };
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = nextAppState => {
+    console.log('good');
   };
 
   private _onChangeTodoTitle = (todoTitle: string): void =>
