@@ -81,12 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export const LoadingView = (props: any) => {
-  return (
-    <View>
-      <Text>Loading...</Text>
-    </View>
-  );
-};
-
 export default Main;

@@ -6,7 +6,7 @@ import Todo from '../../model/Todo';
 
 // view
 import TodoView from './presenter';
-
+import LoadingView from '../../component/loading';
 
 interface ContainerProps {
   todoList: Todo[];
@@ -27,9 +27,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   };
   render() {
     return this.state.isLoading ? (
-      <View>
-        <Text>Loading...</Text>
-      </View>
+      <LoadingView />
     ) : (
       <TodoView
         todoTitle={this.state.todoTitle}

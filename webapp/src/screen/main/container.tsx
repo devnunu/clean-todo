@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import Main, { LoadingView } from './presenter';
+
+// view
+import Main from './presenter';
+import LoadingView from '../../component/loading'
 
 interface ContainerProps {
   isLoggedIn: boolean;
