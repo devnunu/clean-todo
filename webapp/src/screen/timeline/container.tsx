@@ -8,7 +8,7 @@ import TimelineView from './presenter';
 import LoadingView from '../../component/loading';
 
 interface ContainerProps {
-  todoList: Todo[];
+  todoTimeline: Todo[];
   getTodoTimeline: () => void;
 }
 
@@ -26,7 +26,7 @@ class Container extends Component<ContainerProps, ContainerState> {
       <LoadingView />
     ) : (
       <TimelineView
-        todoList={this.convertTodoListToDateObject(this.props.todoList)}
+        todoList={this.convertTodoListToDateObject(this.props.todoTimeline)}
       />
     );
   }
@@ -36,7 +36,8 @@ class Container extends Component<ContainerProps, ContainerState> {
   }
 
   componentWillReceiveProps = (nextProps: ContainerProps) => {
-    if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
+    if (nextProps.todoTimeline)
+      this.setState({ ...this.state, isLoading: false });
   };
 
   convertTodoListToDateObject(todoList: Todo[]) {

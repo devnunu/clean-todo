@@ -9,6 +9,7 @@ interface Todo {
 
 export interface TodoState {
   todoList: Todo[];
+  todoTimeline: Todo[];
 }
 
 export default Todo;

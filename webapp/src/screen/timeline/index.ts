@@ -5,10 +5,10 @@ import { actionCreators as todoActions } from '../../redux/modules/todo';
 
 const mapStateToProps = (state, ownProps) => {
   const {
-    todo: { todoList }
+    todo: { todoTimeline }
   } = state;
   return {
-    todoList
+    todoTimeline
   };
 };
 

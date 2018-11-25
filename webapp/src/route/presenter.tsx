@@ -5,19 +5,24 @@ import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { View, Text, StyleSheet } from 'react-native';
 
 // screen
-import Auth from '../auth';
-import Todo from '../todo';
-import Timeline from '../timeline';
+import Auth from '../screen/auth';
+import Todo from '../screen/todo';
+import Timeline from '../screen/timeline';
 
 // style
-import color from '../../common/assets/style/color';
+import color from '../common/assets/style/color';
 
 interface MainProps {
   isLoggedIn: boolean;
+  onChangeTab: (index, ref) => void;
 }
 
 const Main = (props: MainProps) => {
-  return props.isLoggedIn ? <PrivateRoutes /> : <PublicRoutes />;
+  return props.isLoggedIn ? (
+    <PrivateRoutes {...props} />
+  ) : (
+    <PublicRoutes {...props} />
+  );
 };
 
 // 로그인 하지 않았을 때 루트

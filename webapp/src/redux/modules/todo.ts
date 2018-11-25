@@ -6,6 +6,7 @@ import Todo, { TodoState } from '../../model/Todo';
 
 const ADD_TODO = 'ADD_TODO';
 const SET_TODO_LIST = 'SET_TODO_LIST';
+const SET_TODO_TIMELINE = 'SET_TODO_TIMELINE';
 const UPDATE_TODO = 'UPDATE_TODO';
 
 // action creater
@@ -21,6 +22,13 @@ const setTodoList = (todoList: Todo[]) => {
   return {
     type: SET_TODO_LIST,
     todoList
+  };
+};
+
+const setTodoTimeline = (todoTimeline: Todo[]) => {
+  return {
+    type: SET_TODO_TIMELINE,
+    todoTimeline
   };
 };
 
@@ -81,7 +89,7 @@ const getTodoTimeline = () => {
     })
       .then(response => response.json())
       .then(json => {
-        if (json.todoList) dispatch(setTodoList(json.todoList));
+        if (json.todoList) dispatch(setTodoTimeline(json.todoList));
       })
       .catch(err => console.log(err));
   };
@@ -110,7 +118,8 @@ const createTodo = (title: string) => {
 };
 
 const initialState: TodoState = {
-  todoList: undefined
+  todoList: undefined,
+  todoTimeline: undefined
 };
 
 // reducer
@@ -118,6 +127,8 @@ const reducer = (state = initialState, action: ActionType) => {
   switch (action.type) {
     case SET_TODO_LIST:
       return applySetTodoList(state, action);
+    case SET_TODO_TIMELINE:
+      return applySetTodoTimeline(state, action);
     case ADD_TODO:
       return applyAddTodo(state, action);
     case UPDATE_TODO:
@@ -133,6 +144,14 @@ const applySetTodoList = (state: TodoState, action) => {
   return {
     ...state,
     todoList
+  };
+};
+
+const applySetTodoTimeline = (state: TodoState, action) => {
+  const { todoTimeline } = action;
+  return {
+    ...state,
+    todoTimeline
   };
 };
 

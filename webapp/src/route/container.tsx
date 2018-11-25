@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // view
 import Main from './presenter';
-import LoadingView from '../../component/loading'
+import LoadingView from '../component/loading';
 
 interface ContainerProps {
   isLoggedIn: boolean;
@@ -19,7 +19,11 @@ class Container extends Component<ContainerProps, ContainerState> {
     isLoading: true
   };
   render() {
-    return this.state.isLoading ? <LoadingView /> : <Main {...this.props} />;
+    return this.state.isLoading ? (
+      <LoadingView />
+    ) : (
+      <Main {...this.props} onChangeTab={this._onChangeTab} />
+    );
   }
 
   componentDidMount() {
@@ -32,6 +36,10 @@ class Container extends Component<ContainerProps, ContainerState> {
         isLoading: false
       });
     }
+  };
+
+  private _onChangeTab = (index, ref) => {
+    console.log('changeTab');
   };
 }
 
