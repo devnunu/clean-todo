@@ -21,6 +21,19 @@ const showToday = (req, res) => {
   });
 };
 
+const showAll = (req, res) => {
+  const userId = req.token.id;
+
+  Todo.findAll({
+    where: {
+      userId
+    },
+    order: [['createdAt', 'DESC']]
+  }).then(todoList => {
+    res.status(200).send({ todoList });
+  });
+};
+
 const create = (req, res) => {
   const userId = req.token.id;
 
@@ -64,6 +77,7 @@ const destroy = (req, res) => {
 
 module.exports = {
   showToday,
+  showAll,
   create,
   update,
   destroy

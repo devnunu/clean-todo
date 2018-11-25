@@ -19,7 +19,7 @@ const testTodo = {
   title: 'clean my room'
 };
 
-describe.only('GET /todo는', () => {
+describe('GET /todo는', () => {
   const authenticatedUser = request.agent(app);
   describe('성공시', () => {
     let body, token;
@@ -43,7 +43,52 @@ describe.only('GET /todo는', () => {
         .end((err, res) => {
           res.status.should.be.equal(200);
           body = res.body;
-          console.log('body', body);
+          done();
+        });
+    });
+    it('todo 정보를 가져온다', done => {
+      body.todoList.should.be.Array();
+      done();
+    });
+  });
+  describe('실패 시', () => {
+    it('userId가 없으면 상태코드 403과 메세지를 반환한다', done => {
+      request(app)
+        .get('/todo')
+        .send({ id: testTodo.id })
+        .end((err, res) => {
+          res.status.should.be.equal(403);
+          res.body.msg.should.be.equal(message.MSG_TOKEN_ERROR);
+          done();
+        });
+    });
+  });
+});
+
+describe.only('GET /todo는', () => {
+  const authenticatedUser = request.agent(app);
+  describe('성공시', () => {
+    let body, token;
+    before(() => sequelize.sync({ force: true }));
+    before(() => User.bulkCreate([testUser]));
+    before(() => Todo.bulkCreate([testTodo]));
+    it('로그인 시 상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .post('/users/login')
+        .send({ userId: testUser.userId, password: testUser.password })
+        .end((err, res) => {
+          token = res.body.token;
+          res.status.should.be.equal(200);
+          done();
+        });
+    });
+    it('상태코드 200을 반환한다', done => {
+      authenticatedUser
+        .get('/todo/all')
+        .set('x-access-token', token)
+        .end((err, res) => {
+          res.status.should.be.equal(200);
+          body = res.body;
           done();
         });
     });
