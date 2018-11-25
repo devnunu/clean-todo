@@ -2,7 +2,7 @@ import React from 'react';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 import { Router, Scene } from 'react-native-router-flux';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 // screen
 import Auth from '../screen/auth';

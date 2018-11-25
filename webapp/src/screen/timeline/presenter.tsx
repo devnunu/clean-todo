@@ -4,6 +4,9 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 // model
 import Todo from '../../model/Todo';
 
+// view
+import TodoEmptyView from '../../component/todoEmpty';
+
 // style
 import color from '../../common/assets/style/color';
 
@@ -15,9 +18,13 @@ const TimelineView = (props: any) => {
         <Text style={styles.timelineTitle}>Timeline</Text>
       </View>
       <View>
-        {sortedKeys.map((key, index) => {
-          return renderTimelineItem(props.todoList[key], key, index);
-        })}
+        {!sortedKeys.length ? (
+          <TodoEmptyView />
+        ) : (
+          sortedKeys.map((key, index) => {
+            return renderTimelineItem(props.todoList[key], key, index);
+          })
+        )}
       </View>
     </View>
   );
