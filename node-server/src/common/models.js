@@ -5,6 +5,8 @@ const sequelize = new Sequelize({
   logging: false
 });
 
+const dateUtil = require('./dateUtil');
+
 const User = sequelize.define(
   'user',
   {
@@ -20,7 +22,7 @@ const User = sequelize.define(
     password: {
       type: Sequelize.STRING,
       allowNull: false
-    },
+    }
   },
   {
     tableName: 'user',
@@ -48,7 +50,17 @@ const Todo = sequelize.define(
     completed: {
       type: Sequelize.BOOLEAN,
       allowNull: false,
-      defaultValue: false,
+      defaultValue: false
+    },
+    createdAt: {
+      type: Sequelize.STRING,
+      defaultValue: dateUtil.getCurrentDate(),
+      allowNull: false
+    },
+    updatedAt: {
+      type: Sequelize.STRING,
+      defaultValue: dateUtil.getCurrentDate(),
+      allowNull: false
     }
   },
   {

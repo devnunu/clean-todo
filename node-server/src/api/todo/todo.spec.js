@@ -15,11 +15,11 @@ const testUser = {
 
 const testTodo = {
   id: 0,
-  userId: 0,
+  userId: 'loginTestUser',
   title: 'clean my room'
 };
 
-describe('GET /todo는', () => {
+describe.only('GET /todo는', () => {
   const authenticatedUser = request.agent(app);
   describe('성공시', () => {
     let body, token;
@@ -38,16 +38,17 @@ describe('GET /todo는', () => {
     });
     it('상태코드 200을 반환한다', done => {
       authenticatedUser
-        .get('/todo')
+        .get('/todo/today')
         .set('x-access-token', token)
         .end((err, res) => {
           res.status.should.be.equal(200);
           body = res.body;
+          console.log('body', body);
           done();
         });
     });
     it('todo 정보를 가져온다', done => {
-      body.should.be.Array();
+      body.todoList.should.be.Array();
       done();
     });
   });
@@ -138,7 +139,7 @@ describe('UPDATE /todo는', () => {
   before(() => sequelize.sync({ force: true }));
   before(() => User.bulkCreate([testUser]));
   before(() => Todo.bulkCreate([testTodo]));
-  describe.only('성공시', () => {
+  describe('성공시', () => {
     let body, token;
     it('로그인 시 상태코드 200을 반환한다', done => {
       authenticatedUser

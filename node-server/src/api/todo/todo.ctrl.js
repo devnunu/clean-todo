@@ -1,11 +1,20 @@
+const moment = require('moment');
+
 const { Todo } = require('../../common/models');
 const message = require('../../common/message');
+const dateUtil = require('../../common/dateUtil');
 
-const show = (req, res) => {
+const showToday = (req, res) => {
   const userId = req.token.id;
 
   Todo.findAll({
-    where: { userId },
+    where: {
+      userId,
+      createdAt: {
+        gt: dateUtil.getTodayStartDate(),
+        lt: dateUtil.getTodayEndDate()
+      }
+    },
     order: [['createdAt', 'DESC']]
   }).then(todoList => {
     res.status(200).send({ todoList });
@@ -54,7 +63,7 @@ const destroy = (req, res) => {
 };
 
 module.exports = {
-  show,
+  showToday,
   create,
   update,
   destroy

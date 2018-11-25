@@ -56,6 +56,7 @@ const mainTab = (props: any) => {
       tabBarUnderlineStyle={styles.tabBarUnderlineStyle}
       tabBarActiveTextColor={color.mild_green}
       tabBarInactiveTextColor={color.gray}
+      tabBarTextStyle={{ fontSize: 16 }}
     >
       <Todo tabLabel="Todo" />
       <Timeline tabLabel="Timeline" />

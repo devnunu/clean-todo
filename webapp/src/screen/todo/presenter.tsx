@@ -8,6 +8,7 @@ import {
   StyleSheet
 } from 'react-native';
 
+
 // model
 import Todo from '../../model/Todo';
 

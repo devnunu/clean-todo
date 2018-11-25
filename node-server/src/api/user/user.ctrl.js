@@ -75,7 +75,8 @@ const login = (req, res) => {
       return res.status(401).send({ msg: 'Incorrect username' });
     }
     const validPassword = user.password === password;
-    if (!validPassword) return res.status(401).send({ msg: 'Incorrect password' });
+    if (!validPassword)
+      return res.status(401).send({ msg: 'Incorrect password' });
 
     const token = getToken(user.userId);
     return res
