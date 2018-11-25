@@ -34,10 +34,10 @@ class Container extends Component<ContainerProps, ContainerState> {
   componentDidMount() {
     this.props.getTodoTimeline();
   }
-  
-  componentDidUpdate() {
-    this.props.getTodoTimeline();
-  }
+
+  // componentDidUpdate() {
+  //   this.props.getTodoTimeline();
+  // }
 
   componentWillReceiveProps = (nextProps: ContainerProps) => {
     if (nextProps.todoTimeline)
