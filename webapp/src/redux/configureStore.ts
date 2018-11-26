@@ -3,10 +3,9 @@ import thunk from 'redux-thunk';
 
 // reducers
 import user from './modules/user';
-import test from './modules/test';
 import todo from './modules/todo';
 
-const reducer = combineReducers({ user, test, todo });
+const reducer = combineReducers({ user, todo });
 
 const store = createStore(reducer, applyMiddleware(thunk));
 

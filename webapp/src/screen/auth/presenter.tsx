@@ -12,14 +12,20 @@ import color from '../../common/assets/style/color';
 interface AuthProps {
   action: string;
   changeAction: (action: string) => void;
+  usernameLogin: (username: string, password: string) => void;
+  createAccount: (
+    username: string,
+    password: string,
+    validPassword: string
+  ) => void;
 }
 
 const Auth = (props: AuthProps) => {
   return (
     <LinearGradient style={styles.authView} colors={['#69FF97', '#00E4FF']}>
       <View style={styles.authFormView}>
-        {props.action === 'login' && <LoginForm />}
-        {props.action === 'signup' && <SignupForm />}
+        {props.action === 'login' && <LoginForm usernameLogin={props.usernameLogin} />}
+        {props.action === 'signup' && <SignupForm createAccount={props.createAccount} onClickSignupButton={props.changeAction}/>}
         <TouchableOpacity style={styles.changeModeView}>
           {props.action === 'login' && (
             <Text

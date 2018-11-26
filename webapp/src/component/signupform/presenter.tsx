@@ -14,7 +14,7 @@ interface SignupFormProps {
   onChangeUsername: (username: string) => void;
   onChangePassword: (password: string) => void;
   onChangePasswordValid: (passwordValid: string) => void;
-  createAccount: (username, password, validPassword) => void;
+  onClickSignupButton: (username, password, validPassword) => void;
 }
 
 const SignupForm = (props: SignupFormProps) => {
@@ -47,19 +47,17 @@ const SignupForm = (props: SignupFormProps) => {
           onChangeText={props.onChangePasswordValid}
         />
       </View>
-      <TouchableOpacity style={styles.submitButton}>
-        <Text
-          style={styles.submitButtonText}
-          onPress={() =>
-            props.createAccount(
-              props.username,
-              props.password,
-              props.passwordValid
-            )
-          }
-        >
-          {'Sign up'}
-        </Text>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() =>
+          props.onClickSignupButton(
+            props.username,
+            props.password,
+            props.passwordValid
+          )
+        }
+      >
+        <Text style={styles.submitButtonText}>{'Sign up'}</Text>
       </TouchableOpacity>
     </View>
   );

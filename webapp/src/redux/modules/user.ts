@@ -39,7 +39,7 @@ const usernameLogin = (username: string, password: string) => {
   };
 };
 
-function createAccount(username, password, passwordValid) {
+const createAccount = (username, password, passwordValid) => {
   return async dispatch => {
     fetch('http://localhost:3000/users/', {
       method: 'POST',
@@ -56,7 +56,7 @@ function createAccount(username, password, passwordValid) {
       .then(json => console.log(json)) // TODO: 배포시 삭제
       .catch(err => console.log(err));
   };
-}
+};
 
 function setLoginStatus() {
   return async (dispatch, getState) => {
@@ -85,8 +85,7 @@ const applySetToken = (state: UserState, action: ActionType) => {
   const { token } = action;
   SecureStore.setItemAsync('token', token);
   return {
-    // isLoggedIn: token !== undefined,
-    isLoggedIn: false,
+    isLoggedIn: token !== undefined,
     token
   };
 };

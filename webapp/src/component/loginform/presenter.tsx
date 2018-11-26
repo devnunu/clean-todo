@@ -36,13 +36,11 @@ const LoginForm = (props: LoginFormProps) => {
           onChangeText={props.onChangePassword}
         />
       </View>
-      <TouchableOpacity style={styles.submitButton}>
-        <Text
-          style={styles.submitButtonText}
-          onPress={() => props.usernameLogin(props.username, props.password)}
-        >
-          {'Log in'}
-        </Text>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => props.usernameLogin(props.username, props.password)}
+      >
+        <Text style={styles.submitButtonText}>{'Log in'}</Text>
       </TouchableOpacity>
     </View>
   );
