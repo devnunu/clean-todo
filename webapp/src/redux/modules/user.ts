@@ -83,9 +83,9 @@ const reducer = (state = initialState, action: ActionType) => {
 // reducer function
 const applySetToken = (state: UserState, action: ActionType) => {
   const { token } = action;
-  SecureStore.setItemAsync('token', token);
+  if (typeof token === 'string') SecureStore.setItemAsync('token', token);
   return {
-    isLoggedIn: token !== undefined,
+    isLoggedIn: token !== undefined && token !== null,
     token
   };
 };
