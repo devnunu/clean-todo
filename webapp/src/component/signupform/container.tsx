@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
 
+// model
+import { Mode } from '../../model/Common';
+
 // presenter
 import SignupForm from './presenter';
 
 interface ContainerProps {
-  onClickSignupButton: (action: string) => void;
+  onClickSignupButton: (action: Mode) => void;
   createAccount: (username, password, validPassword) => void;
 }
 
@@ -30,7 +33,7 @@ class Container extends Component<ContainerProps, ContainerState> {
 
   private _onClickSignupButton = async (username, password, validPassword) => {
     this.props.createAccount(username, password, validPassword);
-    this.props.onClickSignupButton('login');
+    this.props.onClickSignupButton(Mode.LOGIN);
   };
 
   private _onChangeUsername = (username: string): void =>

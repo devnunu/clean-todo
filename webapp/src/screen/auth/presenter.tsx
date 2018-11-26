@@ -2,6 +2,9 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo';
 
+// model
+import { Mode } from '../../model/Common';
+
 // component
 import LoginForm from '../../component/loginform';
 import SignupForm from '../../component/signupform';
@@ -10,8 +13,8 @@ import SignupForm from '../../component/signupform';
 import color from '../../common/assets/style/color';
 
 interface AuthProps {
-  action: string;
-  changeAction: (action: string) => void;
+  action: Mode;
+  changeAction: (action: Mode) => void;
   usernameLogin: (username: string, password: string) => void;
   createAccount: (
     username: string,
@@ -24,21 +27,28 @@ const Auth = (props: AuthProps) => {
   return (
     <LinearGradient style={styles.authView} colors={['#69FF97', '#00E4FF']}>
       <View style={styles.authFormView}>
-        {props.action === 'login' && <LoginForm usernameLogin={props.usernameLogin} />}
-        {props.action === 'signup' && <SignupForm createAccount={props.createAccount} onClickSignupButton={props.changeAction}/>}
+        {props.action === Mode.LOGIN && (
+          <LoginForm usernameLogin={props.usernameLogin} />
+        )}
+        {props.action === Mode.SIGNUP && (
+          <SignupForm
+            createAccount={props.createAccount}
+            onClickSignupButton={props.changeAction}
+          />
+        )}
         <TouchableOpacity style={styles.changeModeView}>
-          {props.action === 'login' && (
+          {props.action === Mode.LOGIN && (
             <Text
               style={styles.changeModeText}
-              onPress={() => props.changeAction('signup')}
+              onPress={() => props.changeAction(Mode.SIGNUP)}
             >
               {'회원가입'}
             </Text>
           )}
-          {props.action === 'signup' && (
+          {props.action === Mode.SIGNUP && (
             <Text
               style={styles.changeModeText}
-              onPress={() => props.changeAction('login')}
+              onPress={() => props.changeAction(Mode.LOGIN)}
             >
               {'로그인'}
             </Text>

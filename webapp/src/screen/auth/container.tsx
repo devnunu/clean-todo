@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+// model
+import {Mode} from '../../model/Common'
+
 // presenter
 import User from './presenter';
 
@@ -13,14 +16,14 @@ interface ContainerProps {
 }
 
 interface ConatinerState {
-  action: string;
+  action: Mode;
 }
 
 class Container extends Component<ContainerProps, ConatinerState> {
   constructor(props) {
     super(props);
     this.state = {
-      action: 'login'
+      action: Mode.LOGIN
     };
   }
   render() {
@@ -33,7 +36,7 @@ class Container extends Component<ContainerProps, ConatinerState> {
     );
   }
 
-  private _changeAction = (action: string) =>
+  private _changeAction = (action: Mode) =>
     this.setState({ ...this.state, action });
 }
 
