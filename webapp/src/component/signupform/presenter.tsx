@@ -81,7 +81,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#A321FF',
     borderRadius: 50,
-    paddingVertical: 15
+    paddingVertical: 15,
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1
   },
   submitButtonText: {
     textAlign: 'center',

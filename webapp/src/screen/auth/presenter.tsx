@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   logoView: {
     display: 'flex',
-    flex: 5,
+    flex: 4,
     justifyContent: 'flex-end',
     alignItems: 'center'
   },
