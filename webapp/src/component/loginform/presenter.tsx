@@ -18,7 +18,6 @@ interface LoginFormProps {
 const LoginForm = (props: LoginFormProps) => {
   return (
     <View>
-      <Text style={styles.titleText}>{'Log In'}</Text>
       <View style={styles.inputView}>
         <TextInput
           style={styles.textInput}
@@ -47,14 +46,6 @@ const LoginForm = (props: LoginFormProps) => {
 };
 
 const styles = StyleSheet.create({
-  titleText: {
-    width: '100%',
-    textAlign: 'center',
-    marginBottom: 20,
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white'
-  },
   inputView: {
     display: 'flex',
     flexDirection: 'row'
@@ -70,15 +61,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1
   },
   submitButton: {
-    borderColor: 'white',
-    borderWidth: 3,
-    borderRadius: 4,
-    paddingVertical: 10
+    marginTop: 10,
+    backgroundColor: '#A321FF',
+    borderRadius: 50,
+    paddingVertical: 15
   },
   submitButtonText: {
     textAlign: 'center',
     color: 'white',
-    fontWeight: 'bold',
     fontSize: 18
   }
 });

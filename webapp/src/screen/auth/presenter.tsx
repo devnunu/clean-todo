@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  Image
+} from 'react-native';
 import { LinearGradient } from 'expo';
 
 // model
@@ -25,58 +32,95 @@ interface AuthProps {
 
 const Auth = (props: AuthProps) => {
   return (
-    <LinearGradient style={styles.authView} colors={['#69FF97', '#00E4FF']}>
-      <View style={styles.authFormView}>
-        {props.action === Mode.LOGIN && (
-          <LoginForm usernameLogin={props.usernameLogin} />
-        )}
-        {props.action === Mode.SIGNUP && (
-          <SignupForm
-            createAccount={props.createAccount}
-            onClickSignupButton={props.changeAction}
+    <ImageBackground
+      style={styles.imageBg}
+      source={require('../../common/assets/images/img_bg.jpg')}
+    >
+      <LinearGradient style={styles.authView} colors={['#21D4FD', '#B721FF']}>
+        <View style={styles.logoView}>
+          <Image
+            style={{ resizeMode: 'contain', width: 300 }}
+            source={require('../../common/assets/images/logo_main.png')}
           />
-        )}
-        <TouchableOpacity style={styles.changeModeView}>
+        </View>
+        <View style={styles.authFormView}>
           {props.action === Mode.LOGIN && (
-            <Text
-              style={styles.changeModeText}
-              onPress={() => props.changeAction(Mode.SIGNUP)}
-            >
-              {'회원가입'}
-            </Text>
+            <LoginForm usernameLogin={props.usernameLogin} />
           )}
           {props.action === Mode.SIGNUP && (
-            <Text
-              style={styles.changeModeText}
-              onPress={() => props.changeAction(Mode.LOGIN)}
-            >
-              {'로그인'}
-            </Text>
+            <SignupForm
+              createAccount={props.createAccount}
+              onClickSignupButton={props.changeAction}
+            />
+          )}
+          {props.action === Mode.LOGIN && (
+            <TouchableOpacity style={styles.changeModeView}>
+              <Text style={styles.changeModeDesc}>
+                {`Don't have an account?`}
+              </Text>
+              <Text
+                style={styles.changeModeText}
+                onPress={() => props.changeAction(Mode.SIGNUP)}
+              >
+                {'Sign up'}
+              </Text>
+            </TouchableOpacity>
+          )}
+          {props.action === Mode.SIGNUP && (
+            <TouchableOpacity style={styles.changeModeView}>
+              <Text style={styles.changeModeDesc}>{`Aleady signed up?`}</Text>
+              <Text
+                style={styles.changeModeText}
+                onPress={() => props.changeAction(Mode.LOGIN)}
+              >
+                {'Log in'}
+              </Text>
+            </TouchableOpacity>
           )}
           }
-        </TouchableOpacity>
-      </View>
-    </LinearGradient>
+        </View>
+      </LinearGradient>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  imageBg: {
+    width: '100%',
+    height: '100%'
+  },
   authView: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    opacity: 0.5
+  },
+  logoView: {
+    display: 'flex',
+    flex: 5,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   },
   authFormView: {
-    padding: 16
+    flex: 5,
+    paddingHorizontal: 16,
+    paddingTop: 50
   },
+  // changeMode
   changeModeView: {
-    padding: 10
+    marginTop: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  changeModeDesc: {
+    color: '#ceacac',
+    fontSize: 18,
+    marginRight: 15
   },
   changeModeText: {
-    width: '100%',
-    textAlign: 'center',
-    marginTop: 10,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: 18
   }
 });
 
