@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // view
-import Main from './presenter';
+import { PublicRoutes, PrivateRoutes } from './presenter';
 import LoadingView from '../component/loading';
 
 interface ContainerProps {
@@ -24,10 +24,12 @@ class Container extends Component<ContainerProps, ContainerState> {
     isLoading: true
   };
   render() {
-    return this.state.isLoading ? (
-      <LoadingView />
+    console.log(!this.state.isLoggedIn);
+    if (this.state.isLoading) return <LoadingView />;
+    return !this.props.isLoggedIn ? (
+      <PublicRoutes onChangeTab={this._onChangeTab} />
     ) : (
-      <Main {...this.props} onChangeTab={this._onChangeTab} />
+      <PrivateRoutes onChangeTab={this._onChangeTab} />
     );
   }
 

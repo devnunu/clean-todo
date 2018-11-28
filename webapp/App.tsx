@@ -11,21 +11,21 @@ interface AppState {
 }
 
 export default class App extends Component<{}, AppState> {
-  state = {
-    isClear: false
-  };
+  // state = {
+  //   isClear: false
+  // };
 
-  async componentDidMount() {
-    await SecureStore.deleteItemAsync('token');
-    this.setState({ isClear: true });
-  }
+  // async componentDidMount() {
+  //   await SecureStore.deleteItemAsync('token');
+  //   this.setState({ isClear: true });
+  // }
   render() {
     return (
-      this.state.isClear && (
+      // this.state.isClear && (
         <Provider store={store}>
           <Route />
         </Provider>
-      )
+      // )
     );
   }
 }
