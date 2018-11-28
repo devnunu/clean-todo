@@ -13,6 +13,10 @@ import Todo from '../../model/Todo';
 
 // view
 import TodoEmptyView from '../../component/todoEmpty';
+import TopHeaderView from '../../component/topheader';
+
+// util
+import DateUtil from '../../common/util/DateUtil';
 
 // style
 import color from '../../common/assets/style/color';
@@ -27,24 +31,14 @@ interface TodoProps {
 }
 
 const TodoView = (props: TodoProps) => {
+  console.log(props.todoList.length);
   return (
-    <View>
-      <View style={styles.todoTextInputView}>
-        <TextInput
-          style={styles.todoTextInput}
-          value={props.todoTitle}
-          onChangeText={props.onChangeTodoTitle}
+    <View style={styles.todoView}>
+      <View style={styles.topHeader}>
+        <TopHeaderView
+          title={'TODO'}
+          subtitle={DateUtil.getCurrentDateFormat()}
         />
-        <TouchableOpacity
-          style={styles.todoSubmitButton}
-          onPress={props.onPressCreateTodo}
-        >
-          <Image
-            style={{ width: 30, height: 30 }}
-            resizeMode={'cover'}
-            source={require('../../common/assets/images/button_add.png')}
-          />
-        </TouchableOpacity>
       </View>
       {!props.todoList.length ? (
         <TodoEmptyView />
@@ -58,6 +52,29 @@ const TodoView = (props: TodoProps) => {
           )}
         </View>
       )}
+      <TodoAddInput {...props} />
+    </View>
+  );
+};
+
+const TodoAddInput = (props: TodoProps) => {
+  return (
+    <View style={styles.todoTextInputView}>
+      <TextInput
+        style={styles.todoTextInput}
+        value={props.todoTitle}
+        onChangeText={props.onChangeTodoTitle}
+      />
+      <TouchableOpacity
+        style={styles.todoSubmitButton}
+        onPress={props.onPressCreateTodo}
+      >
+        <Image
+          style={{ width: 30, height: 30 }}
+          resizeMode={'cover'}
+          source={require('../../common/assets/images/button_add.png')}
+        />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -108,6 +125,18 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
 };
 
 const styles = StyleSheet.create({
+  todoView: {
+    display: 'flex',
+    height: '100%',
+    backgroundColor: 'white',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  topHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
   // textInput
   todoTextInputView: {
     display: 'flex',
@@ -142,6 +171,7 @@ const styles = StyleSheet.create({
   },
   // todoListView
   todoListView: {
+    flex: 1,
     paddingVertical: 5,
     paddingHorizontal: 10
   },

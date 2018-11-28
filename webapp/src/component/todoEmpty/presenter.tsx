@@ -14,7 +14,6 @@ const TodoEmptyView = () => {
 const styles = StyleSheet.create({
   todoEmptyView: {
     display: 'flex',
-    height: '100%',
     alignItems: 'center',
     justifyContent: 'center'
   },

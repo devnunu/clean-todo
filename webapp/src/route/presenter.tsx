@@ -1,11 +1,10 @@
 import React from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 
-// view
-import Tab from '../component/tab';
-
 // screen
 import Auth from '../screen/auth';
+import Todo from '../screen/todo';
+import Timeline from '../screen/timeline';
 
 interface RouteProps {
   onChangeTab: (event) => void;
@@ -30,13 +29,8 @@ export const PublicRoutes = (props: RouteProps) => (
 export const PrivateRoutes = (props: RouteProps) => (
   <Router>
     <Scene key={'root'}>
-      <Scene
-        key={'Main'}
-        component={()=><Tab onChangeTab={props.onChangeTab}/>}
-        initial={true}
-        hideNavBar={true}
-        {...props}
-      />
+      <Scene key={'Todo'} component={Todo} initial={true} hideNavBar={true} />
+      <Scene key={'Timeline'} component={Timeline} hideNavBar={true} />
     </Scene>
   </Router>
 );

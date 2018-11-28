@@ -24,7 +24,6 @@ class Container extends Component<ContainerProps, ContainerState> {
     isLoading: true
   };
   render() {
-    console.log(!this.state.isLoggedIn);
     if (this.state.isLoading) return <LoadingView />;
     return !this.props.isLoggedIn ? (
       <PublicRoutes onChangeTab={this._onChangeTab} />
