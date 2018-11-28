@@ -1,5 +1,4 @@
 import React from 'react';
-import ScrollableTabView from 'react-native-scrollable-tab-view';
 import {
   View,
   Text,
@@ -9,12 +8,9 @@ import {
 } from 'react-native';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { LinearGradient } from 'expo';
+
 // style
 import color from '../../common/assets/style/color';
-
-// view
-import Todo from '../../screen/todo';
-import Timeline from '../../screen/timeline';
 
 interface TopHeaderViewProps {
   styles?: Object;
@@ -31,7 +27,7 @@ const TopHeaderView = (props: TopHeaderViewProps) => {
     >
       <LinearGradient
         style={styles.tabContainer}
-        colors={['rgba(230,99,150,0.8)', 'rgba(219,137,103,0.8)']}
+        colors={['rgba(230,99,150,0.6)', 'rgba(219,137,103,0.6)']}
       >
         <View style={styles.buttonView}>
           <TouchableOpacity style={styles.topButton}>
@@ -86,7 +82,7 @@ const styles = StyleSheet.create({
   tabContainer: {
     paddingHorizontal: 16,
     paddingBottom: 20,
-    shadowColor: 'rgba(230,99,150,0.8)',
+    shadowColor: 'rgba(230,99,150,0.7)',
     shadowOffset: {
       width: 0,
       height: 1
