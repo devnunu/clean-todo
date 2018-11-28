@@ -16,7 +16,8 @@ interface TopHeaderViewProps {
   styles?: Object;
   title: string;
   subtitle: string;
-  // onChangeTab: (event) => void;
+  buttonTitle: string;
+  onPressTopButton: () => void;
 }
 
 const TopHeaderView = (props: TopHeaderViewProps) => {
@@ -30,8 +31,11 @@ const TopHeaderView = (props: TopHeaderViewProps) => {
         colors={['rgba(230,99,150,0.6)', 'rgba(219,137,103,0.6)']}
       >
         <View style={styles.buttonView}>
-          <TouchableOpacity style={styles.topButton}>
-            <Text style={styles.topButtonTitle}>{'Timeline'}</Text>
+          <TouchableOpacity
+            style={styles.topButton}
+            onPress={props.onPressTopButton}
+          >
+            <Text style={styles.topButtonTitle}>{props.buttonTitle}</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.titleView}>

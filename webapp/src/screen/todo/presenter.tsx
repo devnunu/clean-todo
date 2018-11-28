@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 // model
 import Todo from '../../model/Todo';
@@ -36,8 +37,10 @@ const TodoView = (props: TodoProps) => {
     <View style={styles.todoView}>
       <View style={styles.topHeader}>
         <TopHeaderView
-          title={'TODO'}
+          title={'NOTE'}
           subtitle={DateUtil.getCurrentDateFormat()}
+          buttonTitle={'Timeline'}
+          onPressTopButton={Actions.Timeline}
         />
       </View>
       {!props.todoList.length ? (
