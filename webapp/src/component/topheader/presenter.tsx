@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { LinearGradient } from 'expo';
-
 // style
 import color from '../../common/assets/style/color';
 
@@ -57,18 +56,14 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end'
   },
   topButton: {
-    width: '35%',
     alignItems: 'center',
     paddingVertical: 5,
-    borderRadius: 20,
-    backgroundColor: color.mild_green,
     opacity: 1
   },
   topButtonTitle: {
     color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    letterSpacing: 1
+    fontSize: 18,
+    letterSpacing: 2
   },
   // title
   titleView: {
@@ -91,7 +86,12 @@ const styles = StyleSheet.create({
   tabContainer: {
     paddingHorizontal: 16,
     paddingBottom: 20,
-
+    shadowColor: 'rgba(230,99,150,0.8)',
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 1.0,
     ...ifIphoneX(
       {
         paddingTop: 70
