@@ -37,7 +37,7 @@ const TodoView = (props: TodoProps) => {
     <View style={styles.todoView}>
       <View style={styles.topHeader}>
         <TopHeaderView
-          title={'NOTE'}
+          title={'TODO'}
           subtitle={DateUtil.getCurrentDateFormat()}
           buttonTitle={'Timeline'}
           onPressTopButton={Actions.Timeline}
