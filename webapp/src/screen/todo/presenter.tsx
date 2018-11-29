@@ -48,7 +48,15 @@ const TodoView = (props: TodoProps) => {
       ) : (
         <View style={styles.todoListView}>
           <View style={styles.todoTitleView}>
-            <Text style={styles.todoTitle}>Todo</Text>
+            <View style={styles.titleLeftView}>
+              <Text style={styles.todoTitle}>{'YOUR IDEA'}</Text>
+            </View>
+            <View style={styles.titleRightView}>
+              <Text style={styles.todoTotalTitle}>{'Total'}</Text>
+              <Text style={styles.todoTotalNumber}>
+                {props.todoList.length}
+              </Text>
+            </View>
           </View>
           {props.todoList.map((item, index) =>
             TodoItemView(props, item, index)
@@ -56,28 +64,6 @@ const TodoView = (props: TodoProps) => {
         </View>
       )}
       <TodoAddInput {...props} />
-    </View>
-  );
-};
-
-const TodoAddInput = (props: TodoProps) => {
-  return (
-    <View style={styles.todoTextInputView}>
-      <TextInput
-        style={styles.todoTextInput}
-        value={props.todoTitle}
-        onChangeText={props.onChangeTodoTitle}
-      />
-      <TouchableOpacity
-        style={styles.todoSubmitButton}
-        onPress={props.onPressCreateTodo}
-      >
-        <Image
-          style={{ width: 30, height: 30 }}
-          resizeMode={'cover'}
-          source={require('../../common/assets/images/button_add.png')}
-        />
-      </TouchableOpacity>
     </View>
   );
 };
@@ -104,7 +90,7 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
           style={{
             width: 25,
             height: 25,
-            marginRight: 10
+            marginRight: 20
           }}
           source={
             todoItem.completed
@@ -113,7 +99,7 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
           }
         />
       </TouchableOpacity>
-      <View>
+      <View style={styles.todoItemTextView}>
         <Text
           style={[
             styles.todoItemText,
@@ -122,8 +108,33 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
         >
           {todoItem.title}
         </Text>
+        <Text style={[styles.todoItemSubText]}>
+          {todoItem.createdAt.split(' ')[0]}
+        </Text>
       </View>
     </TouchableOpacity>
+  );
+};
+
+const TodoAddInput = (props: TodoProps) => {
+  return (
+    <View style={styles.todoTextInputView}>
+      <TextInput
+        style={styles.todoTextInput}
+        value={props.todoTitle}
+        onChangeText={props.onChangeTodoTitle}
+      />
+      <TouchableOpacity
+        style={styles.todoSubmitButton}
+        onPress={props.onPressCreateTodo}
+      >
+        <Image
+          style={{ width: 30, height: 30 }}
+          resizeMode={'cover'}
+          source={require('../../common/assets/images/button_add.png')}
+        />
+      </TouchableOpacity>
+    </View>
   );
 };
 
@@ -140,6 +151,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
+
   // textInput
   todoTextInputView: {
     display: 'flex',
@@ -163,33 +175,67 @@ const styles = StyleSheet.create({
   },
   // todoTitle
   todoTitleView: {
-    borderBottomColor: color.gray,
-    borderBottomWidth: 1.5,
-    paddingVertical: 10
+    display: 'flex',
+    flexDirection: 'row',
+    paddingVertical: 20,
+    justifyContent: 'space-between'
+  },
+  titleLeftView: {
+    flex: 1
   },
   todoTitle: {
-    color: color.gray,
-    fontSize: 14,
-    paddingLeft: 10
+    fontSize: 24,
+    fontWeight: 'bold',
+    letterSpacing: 1
   },
+  titleRightView: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'baseline'
+  },
+  todoTotalTitle: {
+    marginRight: 10,
+    fontSize: 14,
+    color: color.gray
+  },
+  todoTotalNumber: {
+    fontSize: 24
+  },
+
   // todoListView
   todoListView: {
     flex: 1,
     paddingVertical: 5,
-    paddingHorizontal: 10
+    paddingHorizontal: 16
   },
   // todoItem
   todoItemView: {
     display: 'flex',
     flexDirection: 'row',
     paddingVertical: 16,
-    paddingHorizontal: 10,
-    borderBottomColor: color.gray,
-    borderBottomWidth: 0.5,
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    borderColor: 'rgba(230,99,150,0.1)',
+    borderTopWidth: 0.5,
+    borderLeftWidth: 0.5,
+    borderRightWidth: 3,
+    borderBottomWidth: 6,
     alignItems: 'center'
   },
+  todoItemTextView: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   todoItemText: {
-    fontSize: 18
+    fontSize: 20,
+    marginBottom: 5
+  },
+  todoItemSubText: {
+    fontSize: 14,
+    color: color.gray
   },
   todoItemTextComplete: {
     color: '#999999',
