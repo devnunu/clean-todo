@@ -168,7 +168,7 @@ const reducer = (state = initialState, action: ActionType) => {
 
 // reducer function
 const applySetTodoList = (state: TodoState, action) => {
-  const { todoList } = action;
+  const todoList = action.todoList.sort((a, b) => a.id - b.id);
   return {
     ...state,
     todoList
@@ -184,7 +184,7 @@ const applySetTodoTimeline = (state: TodoState, action) => {
 };
 
 const applyAddTodo = (state: TodoState, action) => {
-  const todoList = [action.todo, ...state.todoList];
+  const todoList = [...state.todoList, action.todo];
   return { ...state, todoList };
 };
 

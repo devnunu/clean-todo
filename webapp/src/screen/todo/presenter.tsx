@@ -5,6 +5,7 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
+  ScrollView,
   StyleSheet
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -32,7 +33,6 @@ interface TodoProps {
 }
 
 const TodoView = (props: TodoProps) => {
-  console.log(props.todoList.length);
   return (
     <View style={styles.todoView}>
       <View style={styles.topHeader}>
@@ -46,7 +46,7 @@ const TodoView = (props: TodoProps) => {
       {!props.todoList.length ? (
         <TodoEmptyView />
       ) : (
-        <View style={styles.todoListView}>
+        <ScrollView style={styles.todoListView}>
           <View style={styles.todoTitleView}>
             <View style={styles.titleLeftView}>
               <Text style={styles.todoTitle}>{'YOUR IDEA'}</Text>
@@ -61,7 +61,7 @@ const TodoView = (props: TodoProps) => {
           {props.todoList.map((item, index) =>
             TodoItemView(props, item, index)
           )}
-        </View>
+        </ScrollView>
       )}
       <TodoAddInput {...props} />
     </View>
@@ -198,10 +198,12 @@ const styles = StyleSheet.create({
   todoTotalTitle: {
     marginRight: 10,
     fontSize: 14,
+    letterSpacing: 1,
     color: color.gray
   },
   todoTotalNumber: {
-    fontSize: 24
+    fontSize: 24,
+    fontWeight: 'bold'
   },
 
   // todoListView
@@ -217,12 +219,8 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 20,
     backgroundColor: 'white',
-    borderRadius: 10,
-    borderColor: 'rgba(230,99,150,0.1)',
-    borderTopWidth: 0.5,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 3,
-    borderBottomWidth: 6,
+    borderBottomColor: color.gray,
+    borderBottomWidth: 0.5,
     alignItems: 'center'
   },
   todoItemTextView: {
@@ -231,11 +229,13 @@ const styles = StyleSheet.create({
   },
   todoItemText: {
     fontSize: 20,
-    marginBottom: 5
+    marginBottom: 5,
+    letterSpacing: 1
   },
   todoItemSubText: {
     fontSize: 14,
-    color: color.gray
+    color: color.gray,
+    letterSpacing: 1
   },
   todoItemTextComplete: {
     color: '#999999',
