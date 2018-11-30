@@ -12,6 +12,7 @@
 - REST API
 - ORM
 - JWT
+- Mocha(for test)
 - present-container pattern
 
 ## 기능
