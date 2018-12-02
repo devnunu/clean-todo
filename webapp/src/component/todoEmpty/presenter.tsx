@@ -8,8 +8,9 @@ const TodoEmptyView = () => {
     <View style={styles.todoEmptyView}>
       <Image
         style={{
-          aspectRatio: 0.8,
-          resizeMode: 'contain'
+          width: 150,
+          height: 150,
+          resizeMode: 'cover'
         }}
         source={require('../../common/assets/images/icon_empty.png')}
       />
@@ -27,7 +28,8 @@ const styles = StyleSheet.create({
   },
   todoEmptyText: {
     fontSize: 16,
-    color: color.gray
+    color: color.gray,
+    marginTop: 10
   }
 });
 

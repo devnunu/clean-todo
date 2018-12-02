@@ -26,7 +26,7 @@ const TimelineView = (props: any) => {
       <ScrollView style={styles.timelineListView}>
         <View style={styles.todoTitleView}>
           <View style={styles.titleLeftView}>
-            <Text style={styles.todoTitle}>{'TIMELINE'}</Text>
+            <Text style={styles.todoTitle}>{'DONE'}</Text>
           </View>
           <View style={styles.titleRightView}>
             <Text style={styles.todoTotalTitle}>{'Total'}</Text>
