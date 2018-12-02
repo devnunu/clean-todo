@@ -20,7 +20,6 @@ const TodoEmptyView = () => {
 
 const styles = StyleSheet.create({
   todoEmptyView: {
-    marginTop: 50,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
