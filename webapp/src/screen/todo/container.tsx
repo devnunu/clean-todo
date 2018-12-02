@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text, Modal } from 'react-native';
 
 // model
@@ -34,7 +34,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     return this.state.isLoading ? (
       <LoadingView />
     ) : (
-      <View>
+      <Fragment>
         <TodoView
           todoTitle={this.state.todoTitle}
           todoList={this.props.todoList}
@@ -48,7 +48,7 @@ class Container extends Component<ContainerProps, ContainerState> {
           onPressCancel={this._onPressModalCancel}
           onPressDelete={this._onPressModalDelete}
         />
-      </View>
+      </Fragment>
     );
   }
 

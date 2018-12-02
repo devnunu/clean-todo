@@ -1,5 +1,14 @@
 import React from 'react';
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 // model
@@ -98,7 +107,7 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
 
 const TodoAddInput = (props: TodoProps) => {
   return (
-    <View style={styles.todoTextInputView}>
+    <KeyboardAvoidingView behavior="padding" style={styles.todoTextInputView}>
       <TextInput style={styles.todoTextInput} value={props.todoTitle} onChangeText={props.onChangeTodoTitle} />
       <TouchableOpacity style={styles.todoSubmitButton} onPress={props.onPressCreateTodo}>
         <Image
@@ -107,14 +116,14 @@ const TodoAddInput = (props: TodoProps) => {
           source={require('../../common/assets/images/button_add.png')}
         />
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   todoView: {
     display: 'flex',
-    height: '100%',
+    flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -124,7 +133,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-
   // textInput
   todoTextInputView: {
     display: 'flex',
