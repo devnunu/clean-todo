@@ -25,7 +25,7 @@ class Container extends Component<ContainerProps, ContainerState> {
     return this.state.isLoading ? (
       <LoadingView />
     ) : (
-      <TimelineView todoList={this.convertTodoListToDateObject(this.props.todoTimeline)} />
+      <TimelineView todoTimeline={this.convertTodoListToDateObject(this.props.todoTimeline)} />
     );
   }
 

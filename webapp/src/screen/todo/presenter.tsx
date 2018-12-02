@@ -48,7 +48,7 @@ const TodoView = (props: TodoProps) => {
       <ScrollView style={styles.todoListView}>
         <View style={styles.todoTitleView}>
           <View style={styles.titleLeftView}>
-            <Text style={styles.todoTitle}>{'YOUR IDEA'}</Text>
+            <Text style={styles.todoTitle}>{'TODAY TODO'}</Text>
           </View>
           <View style={styles.titleRightView}>
             <Text style={styles.todoTotalTitle}>{'Total'}</Text>

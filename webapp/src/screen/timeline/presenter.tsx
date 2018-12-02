@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, ScrollView, StyleSheet } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 // model
@@ -13,7 +13,7 @@ import TopHeaderView from '../../component/topheader';
 import color from '../../common/assets/style/color';
 
 const TimelineView = (props: any) => {
-  const sortedKeys = Object.keys(props.todoList).sort();
+  const sortedKeys = Object.keys(props.todoTimeline).sort();
   return (
     <View style={styles.timelineView}>
       <View style={styles.topHeader}>
@@ -24,27 +24,36 @@ const TimelineView = (props: any) => {
           onPressTopButton={() => Actions.pop()}
         />
       </View>
-      <View style={styles.timelineListView}>
+      <ScrollView style={styles.timelineListView}>
+        <View style={styles.todoTitleView}>
+          <View style={styles.titleLeftView}>
+            <Text style={styles.todoTitle}>{'TIMELINE'}</Text>
+          </View>
+          <View style={styles.titleRightView}>
+            <Text style={styles.todoTotalTitle}>{'Total'}</Text>
+            <Text style={styles.todoTotalNumber}>{!sortedKeys.length ? 0 : sortedKeys.length}</Text>
+          </View>
+        </View>
         {!sortedKeys.length ? (
           <TodoEmptyView />
         ) : (
           sortedKeys.map((key, index) => {
-            return renderTimelineItem(props.todoList[key], key, index);
+            return renderTimelineItem(props.todoTimeline[key], key, index);
           })
         )}
-      </View>
+      </ScrollView>
     </View>
   );
 };
 
-const renderTimelineItem = (todoList: Todo[], key: string, index: number) => {
+const renderTimelineItem = (todoTimeline: Todo[], key: string, index: number) => {
   return (
     <View key={index}>
       <View style={styles.dateTitleView}>
         <Text style={styles.dateTitle}>{key}</Text>
       </View>
       <View>
-        {todoList.map((todo, index) => {
+        {todoTimeline.map((todo, index) => {
           return renderTodoItem(todo, index);
         })}
       </View>
@@ -60,7 +69,7 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
           style={{
             width: 25,
             height: 25,
-            marginRight: 10,
+            marginRight: 20,
           }}
           source={
             todoItem.completed
@@ -79,7 +88,7 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
 const styles = StyleSheet.create({
   timelineView: {
     display: 'flex',
-    height: '100%',
+    flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -92,6 +101,38 @@ const styles = StyleSheet.create({
   timelineTitle: {
     fontSize: 18,
   },
+  // todoTitle
+  todoTitleView: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingVertical: 20,
+    justifyContent: 'space-between',
+  },
+  titleLeftView: {
+    flex: 1,
+  },
+  todoTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    letterSpacing: 1,
+  },
+  titleRightView: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'baseline',
+  },
+  todoTotalTitle: {
+    marginRight: 10,
+    fontSize: 14,
+    letterSpacing: 1,
+    color: color.gray,
+  },
+  todoTotalNumber: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
   // timelineListView
   timelineListView: {
     flex: 1,
@@ -100,7 +141,7 @@ const styles = StyleSheet.create({
   },
   // date title
   dateTitleView: {
-    marginTop: 10,
+    marginTop: 25,
   },
   dateTitle: {
     fontSize: 14,
@@ -116,7 +157,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   todoItemText: {
-    fontSize: 18,
+    fontSize: 20,
   },
   todoItemTextComplete: {
     color: '#999999',
