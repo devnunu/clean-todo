@@ -24,7 +24,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    flexGrow: 1,
   },
   todoEmptyText: {
     fontSize: 16,

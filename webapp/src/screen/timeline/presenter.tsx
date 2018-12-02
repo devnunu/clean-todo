@@ -23,7 +23,10 @@ const TimelineView = (props: any) => {
           onPressTopButton={() => Actions.pop()}
         />
       </View>
-      <ScrollView style={styles.timelineListView}>
+      <ScrollView
+        style={styles.timelineListView}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View style={styles.todoTitleView}>
           <View style={styles.titleLeftView}>
             <Text style={styles.todoTitle}>{'DONE'}</Text>

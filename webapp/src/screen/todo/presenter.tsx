@@ -45,7 +45,10 @@ const TodoView = (props: TodoProps) => {
         />
       </View>
 
-      <ScrollView style={styles.todoListView}>
+      <ScrollView
+        style={styles.todoListView}
+        contentContainerStyle={{ flexGrow: 1 }}
+      >
         <View style={styles.todoTitleView}>
           <View style={styles.titleLeftView}>
             <Text style={styles.todoTitle}>{'LIST'}</Text>
@@ -178,7 +181,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 20,
     justifyContent: 'space-between',
-    alignItems: 'stretch'
   },
   titleLeftView: {
     flex: 1
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
   todoListView: {
     flex: 1,
     paddingVertical: 5,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   // todoItem
   todoItemView: {
