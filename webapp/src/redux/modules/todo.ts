@@ -15,34 +15,34 @@ const REMOVE_TODO = 'REMOVE_TODO';
 const addTodo = (todo: Todo) => {
   return {
     type: ADD_TODO,
-    todo
+    todo,
   };
 };
 const removeTodo = (todoId: number) => {
   return {
     type: REMOVE_TODO,
-    todoId
+    todoId,
   };
 };
 
 const setTodoList = (todoList: Todo[]) => {
   return {
     type: SET_TODO_LIST,
-    todoList
+    todoList,
   };
 };
 
 const setTodoTimeline = (todoTimeline: Todo[]) => {
   return {
     type: SET_TODO_TIMELINE,
-    todoTimeline
+    todoTimeline,
   };
 };
 
 const updateTodo = (todo: Todo) => {
   return {
     type: UPDATE_TODO,
-    todo
+    todo,
   };
 };
 
@@ -54,11 +54,11 @@ const updateTodoComplte = (id: number) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token
+        'x-access-token': getState().user.token,
       },
       body: JSON.stringify({
-        id
-      })
+        id,
+      }),
     })
       .then(response => response.json())
       .then(json => {
@@ -74,8 +74,8 @@ const getTodoList = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token
-      }
+        'x-access-token': getState().user.token,
+      },
     })
       .then(response => response.json())
       .then(json => {
@@ -91,8 +91,8 @@ const getTodoTimeline = () => {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token
-      }
+        'x-access-token': getState().user.token,
+      },
     })
       .then(response => response.json())
       .then(json => {
@@ -108,11 +108,11 @@ const createTodo = (title: string) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token
+        'x-access-token': getState().user.token,
       },
       body: JSON.stringify({
-        title
-      })
+        title,
+      }),
     })
       .then(response => response.json())
       .then(json => {
@@ -130,11 +130,11 @@ const deleteTodo = (id: number) => {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token
+        'x-access-token': getState().user.token,
       },
       body: JSON.stringify({
-        id
-      })
+        id,
+      }),
     })
       .then(() => {
         dispatch(removeTodo(id));
@@ -145,7 +145,7 @@ const deleteTodo = (id: number) => {
 
 const initialState: TodoState = {
   todoList: undefined,
-  todoTimeline: undefined
+  todoTimeline: undefined,
 };
 
 // reducer
@@ -171,7 +171,7 @@ const applySetTodoList = (state: TodoState, action) => {
   const todoList = action.todoList.sort((a, b) => a.id - b.id);
   return {
     ...state,
-    todoList
+    todoList,
   };
 };
 
@@ -179,7 +179,7 @@ const applySetTodoTimeline = (state: TodoState, action) => {
   const { todoTimeline } = action;
   return {
     ...state,
-    todoTimeline
+    todoTimeline,
   };
 };
 
@@ -189,9 +189,7 @@ const applyAddTodo = (state: TodoState, action) => {
 };
 
 const applyUpdateTodo = (state: TodoState, action) => {
-  const newTodoList = state.todoList.map(todo =>
-    todo.id === action.todo.id ? action.todo : todo
-  );
+  const newTodoList = state.todoList.map(todo => (todo.id === action.todo.id ? action.todo : todo));
 
   return { ...state, todoList: newTodoList };
 };
@@ -208,7 +206,7 @@ export const actionCreators = {
   getTodoTimeline,
   createTodo,
   updateTodoComplte,
-  deleteTodo
+  deleteTodo,
 };
 
 export default reducer;

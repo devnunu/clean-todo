@@ -19,26 +19,23 @@ interface ContainerState {
 class Container extends Component<ContainerProps, ContainerState> {
   state = {
     ...this.state,
-    isLoading: true
+    isLoading: true,
   };
   render() {
     return this.state.isLoading ? (
       <LoadingView />
     ) : (
-      <TimelineView
-        todoList={this.convertTodoListToDateObject(this.props.todoTimeline)}
-      />
+      <TimelineView todoList={this.convertTodoListToDateObject(this.props.todoTimeline)} />
     );
   }
 
   componentDidMount() {
-    if (!this.props.todoTimeline) this.props.getTodoTimeline();
+    this.props.getTodoTimeline();
   }
 
-  componentWillReceiveProps = (nextProps: ContainerProps) => {
-    if (nextProps.todoTimeline)
-      this.setState({ ...this.state, isLoading: false });
-  };
+  componentWillReceiveProps(nextProps: ContainerProps) {
+    if (nextProps.todoTimeline) this.setState({ ...this.state, isLoading: false });
+  }
 
   convertTodoListToDateObject(todoList: Todo[]) {
     return todoList.reduce(function(a, e) {

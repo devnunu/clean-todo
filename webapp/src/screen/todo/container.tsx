@@ -28,7 +28,7 @@ class Container extends Component<ContainerProps, ContainerState> {
   state = {
     ...this.state,
     isLoading: true,
-    isModalOpen: false
+    isModalOpen: false,
   };
   render() {
     return this.state.isLoading ? (
@@ -56,12 +56,11 @@ class Container extends Component<ContainerProps, ContainerState> {
     if (!this.props.todoList) this.props.getTodoList();
   }
 
-  componentWillReceiveProps = (nextProps: ContainerProps) => {
+  componentWillReceiveProps(nextProps: ContainerProps) {
     if (nextProps.todoList) this.setState({ ...this.state, isLoading: false });
-  };
+  }
 
-  private _onChangeTodoTitle = (todoTitle: string): void =>
-    this.setState({ ...this.state, todoTitle });
+  private _onChangeTodoTitle = (todoTitle: string): void => this.setState({ ...this.state, todoTitle });
 
   private _handleCreateTodo = (): void => {
     this.props.createTodo(this.state.todoTitle);

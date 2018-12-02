@@ -60,7 +60,7 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
           style={{
             width: 25,
             height: 25,
-            marginRight: 10
+            marginRight: 10,
           }}
           source={
             todoItem.completed
@@ -70,14 +70,7 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
         />
       </View>
       <View>
-        <Text
-          style={[
-            styles.todoItemText,
-            todoItem.completed && styles.todoItemTextComplete
-          ]}
-        >
-          {todoItem.title}
-        </Text>
+        <Text style={[styles.todoItemText, todoItem.completed && styles.todoItemTextComplete]}>{todoItem.title}</Text>
       </View>
     </View>
   );
@@ -89,51 +82,47 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'white',
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   topHeader: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   timelineTitle: {
-    fontSize: 18
+    fontSize: 18,
   },
   // timelineListView
   timelineListView: {
     flex: 1,
     paddingVertical: 5,
-    paddingHorizontal: 16
+    paddingHorizontal: 16,
   },
   // date title
   dateTitleView: {
-    paddingVertical: 8,
-    backgroundColor: color.mild_green
+    marginTop: 10,
   },
   dateTitle: {
-    color: 'white',
     fontSize: 14,
     paddingLeft: 10,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   // todoItem
   todoItemView: {
     display: 'flex',
     flexDirection: 'row',
-    paddingVertical: 16,
+    paddingVertical: 10,
     paddingHorizontal: 10,
-    borderBottomColor: color.gray,
-    borderBottomWidth: 0.5,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   todoItemText: {
-    fontSize: 18
+    fontSize: 18,
   },
   todoItemTextComplete: {
     color: '#999999',
     textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid'
-  }
+    textDecorationStyle: 'solid',
+  },
 });
 
 export default TimelineView;

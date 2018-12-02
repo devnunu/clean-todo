@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Scene } from 'react-native-router-flux';
+import { Router, Scene, Stack } from 'react-native-router-flux';
 
 // screen
 import Auth from '../screen/auth';
@@ -14,13 +14,7 @@ interface RouteProps {
 export const PublicRoutes = (props: RouteProps) => (
   <Router>
     <Scene key={'root'}>
-      <Scene
-        key={'Auth'}
-        component={Auth}
-        title={'Auth'}
-        initial={true}
-        hideNavBar={true}
-      />
+      <Scene key={'Auth'} component={Auth} title={'Auth'} initial={true} hideNavBar={true} />
     </Scene>
   </Router>
 );
