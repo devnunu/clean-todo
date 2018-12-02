@@ -15,7 +15,7 @@ import color from '../../common/assets/style/color';
 interface TopHeaderViewProps {
   styles?: Object;
   title: string;
-  subtitle: string;
+  subtitle?: string;
   buttonTitle: string;
   onPressTopButton: () => void;
 }
@@ -40,7 +40,9 @@ const TopHeaderView = (props: TopHeaderViewProps) => {
         </View>
         <View style={styles.titleView}>
           <Text style={styles.title}>{props.title}</Text>
-          <Text style={styles.subTitle}>{props.subtitle}</Text>
+          <Text style={styles.subTitle}>
+            {!props.subtitle ? '' : props.subtitle}
+          </Text>
         </View>
       </LinearGradient>
     </ImageBackground>

@@ -19,7 +19,6 @@ const TimelineView = (props: any) => {
       <View style={styles.topHeader}>
         <TopHeaderView
           title={'TIMELINE'}
-          subtitle={'Timeline'}
           buttonTitle={'TODO'}
           onPressTopButton={() => Actions.pop()}
         />
@@ -31,7 +30,9 @@ const TimelineView = (props: any) => {
           </View>
           <View style={styles.titleRightView}>
             <Text style={styles.todoTotalTitle}>{'Total'}</Text>
-            <Text style={styles.todoTotalNumber}>{!sortedKeys.length ? 0 : sortedKeys.length}</Text>
+            <Text style={styles.todoTotalNumber}>
+              {!sortedKeys.length ? 0 : sortedKeys.length}
+            </Text>
           </View>
         </View>
         {!sortedKeys.length ? (
@@ -46,7 +47,11 @@ const TimelineView = (props: any) => {
   );
 };
 
-const renderTimelineItem = (todoTimeline: Todo[], key: string, index: number) => {
+const renderTimelineItem = (
+  todoTimeline: Todo[],
+  key: string,
+  index: number
+) => {
   return (
     <View key={index}>
       <View style={styles.dateTitleView}>
@@ -69,7 +74,7 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
           style={{
             width: 25,
             height: 25,
-            marginRight: 20,
+            marginRight: 20
           }}
           source={
             todoItem.completed
@@ -79,7 +84,14 @@ const renderTodoItem = (todoItem: Todo, index: number) => {
         />
       </View>
       <View>
-        <Text style={[styles.todoItemText, todoItem.completed && styles.todoItemTextComplete]}>{todoItem.title}</Text>
+        <Text
+          style={[
+            styles.todoItemText,
+            todoItem.completed && styles.todoItemTextComplete
+          ]}
+        >
+          {todoItem.title}
+        </Text>
       </View>
     </View>
   );
@@ -91,62 +103,62 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   topHeader: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   timelineTitle: {
-    fontSize: 18,
+    fontSize: 18
   },
   // todoTitle
   todoTitleView: {
     display: 'flex',
     flexDirection: 'row',
     paddingVertical: 20,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   titleLeftView: {
-    flex: 1,
+    flex: 1
   },
   todoTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    letterSpacing: 1,
+    letterSpacing: 1
   },
   titleRightView: {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'baseline',
+    alignItems: 'baseline'
   },
   todoTotalTitle: {
     marginRight: 10,
     fontSize: 14,
     letterSpacing: 1,
-    color: color.gray,
+    color: color.gray
   },
   todoTotalNumber: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   // timelineListView
   timelineListView: {
     flex: 1,
     paddingVertical: 5,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
   // date title
   dateTitleView: {
-    marginTop: 25,
+    marginTop: 25
   },
   dateTitle: {
     fontSize: 14,
     paddingLeft: 10,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   // todoItem
   todoItemView: {
@@ -154,16 +166,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
     paddingHorizontal: 10,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   todoItemText: {
-    fontSize: 20,
+    fontSize: 20
   },
   todoItemTextComplete: {
     color: '#999999',
     textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-  },
+    textDecorationStyle: 'solid'
+  }
 });
 
 export default TimelineView;

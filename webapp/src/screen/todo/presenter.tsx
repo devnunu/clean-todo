@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
@@ -48,11 +48,13 @@ const TodoView = (props: TodoProps) => {
       <ScrollView style={styles.todoListView}>
         <View style={styles.todoTitleView}>
           <View style={styles.titleLeftView}>
-            <Text style={styles.todoTitle}>{'TODAY TODO'}</Text>
+            <Text style={styles.todoTitle}>{'LIST'}</Text>
           </View>
           <View style={styles.titleRightView}>
             <Text style={styles.todoTotalTitle}>{'Total'}</Text>
-            <Text style={styles.todoTotalNumber}>{!props.todoList.length ? 0 : props.todoList.length}</Text>
+            <Text style={styles.todoTotalNumber}>
+              {!props.todoList.length ? 0 : props.todoList.length}
+            </Text>
           </View>
         </View>
         {!props.todoList.length ? (
@@ -88,7 +90,7 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
           style={{
             width: 25,
             height: 25,
-            marginRight: 20,
+            marginRight: 20
           }}
           source={
             todoItem.completed
@@ -98,8 +100,17 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
         />
       </TouchableOpacity>
       <View style={styles.todoItemTextView}>
-        <Text style={[styles.todoItemText, todoItem.completed && styles.todoItemTextComplete]}>{todoItem.title}</Text>
-        <Text style={[styles.todoItemSubText]}>{todoItem.createdAt.split(' ')[0]}</Text>
+        <Text
+          style={[
+            styles.todoItemText,
+            todoItem.completed && styles.todoItemTextComplete
+          ]}
+        >
+          {todoItem.title}
+        </Text>
+        <Text style={[styles.todoItemSubText]}>
+          {todoItem.createdAt.split(' ')[0]}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -108,8 +119,15 @@ const TodoItemView = (props: TodoProps, todoItem: Todo, index: number) => {
 const TodoAddInput = (props: TodoProps) => {
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.todoTextInputView}>
-      <TextInput style={styles.todoTextInput} value={props.todoTitle} onChangeText={props.onChangeTodoTitle} />
-      <TouchableOpacity style={styles.todoSubmitButton} onPress={props.onPressCreateTodo}>
+      <TextInput
+        style={styles.todoTextInput}
+        value={props.todoTitle}
+        onChangeText={props.onChangeTodoTitle}
+      />
+      <TouchableOpacity
+        style={styles.todoSubmitButton}
+        onPress={props.onPressCreateTodo}
+      >
         <Image
           style={{ width: 30, height: 30 }}
           resizeMode={'cover'}
@@ -126,17 +144,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   topHeader: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap'
   },
   // textInput
   todoTextInputView: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   todoTextInput: {
     flex: 7,
@@ -144,7 +162,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.2,
     paddingHorizontal: 16,
     paddingVertical: 10,
-    fontSize: 18,
+    fontSize: 18
   },
   todoSubmitButton: {
     display: 'flex',
@@ -152,7 +170,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     backgroundColor: color.mild_green,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   // todoTitle
   todoTitleView: {
@@ -160,38 +178,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 20,
     justifyContent: 'space-between',
+    alignItems: 'stretch'
   },
   titleLeftView: {
-    flex: 1,
+    flex: 1
   },
   todoTitle: {
     fontSize: 24,
     fontWeight: 'bold',
-    letterSpacing: 1,
+    letterSpacing: 1
   },
   titleRightView: {
     display: 'flex',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'baseline',
+    alignItems: 'baseline'
   },
   todoTotalTitle: {
     marginRight: 10,
     fontSize: 14,
     letterSpacing: 1,
-    color: color.gray,
+    color: color.gray
   },
   todoTotalNumber: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
 
   // todoListView
   todoListView: {
     flex: 1,
     paddingVertical: 5,
-    paddingHorizontal: 16,
+    paddingHorizontal: 16
   },
   // todoItem
   todoItemView: {
@@ -202,27 +221,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderBottomColor: color.gray,
     borderBottomWidth: 0.5,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   todoItemTextView: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   todoItemText: {
     fontSize: 20,
     marginBottom: 5,
-    letterSpacing: 1,
+    letterSpacing: 1
   },
   todoItemSubText: {
     fontSize: 14,
     color: color.gray,
-    letterSpacing: 1,
+    letterSpacing: 1
   },
   todoItemTextComplete: {
     color: '#999999',
     textDecorationLine: 'line-through',
-    textDecorationStyle: 'solid',
-  },
+    textDecorationStyle: 'solid'
+  }
 });
 
 export default TodoView;

@@ -6,7 +6,13 @@ import color from '../../common/assets/style/color';
 const TodoEmptyView = () => {
   return (
     <View style={styles.todoEmptyView}>
-      <Image style={{ width: 200, height: 200 }} source={require('../../common/assets/images/icon_empty.png')} />
+      <Image
+        style={{
+          aspectRatio: 0.8,
+          resizeMode: 'contain'
+        }}
+        source={require('../../common/assets/images/icon_empty.png')}
+      />
       <Text style={styles.todoEmptyText}>{'There is nothing, yet'}</Text>
     </View>
   );
@@ -18,12 +24,12 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   todoEmptyText: {
     fontSize: 16,
-    color: color.gray,
-  },
+    color: color.gray
+  }
 });
 
 export default TodoEmptyView;
