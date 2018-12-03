@@ -9,8 +9,11 @@ import {
 import { ifIphoneX } from 'react-native-iphone-x-helper';
 import { LinearGradient } from 'expo';
 
+// util
+import DateUtil from '../../common/util/DateUtil';
+
 // style
-import color from '../../common/assets/style/color';
+import { topHeaderGradientColor } from '../../common/assets/style/color';
 
 interface TopHeaderViewProps {
   styles?: Object;
@@ -28,7 +31,7 @@ const TopHeaderView = (props: TopHeaderViewProps) => {
     >
       <LinearGradient
         style={styles.tabContainer}
-        colors={['rgba(230,99,150,0.6)', 'rgba(219,137,103,0.6)']}
+        colors={getTopHeaderGradientColor()}
       >
         <View style={styles.buttonView}>
           <TouchableOpacity
@@ -47,6 +50,11 @@ const TopHeaderView = (props: TopHeaderViewProps) => {
       </LinearGradient>
     </ImageBackground>
   );
+};
+
+const getTopHeaderGradientColor = () => {
+  const date = DateUtil.getCurrentDateFormat().split(' ')[0];
+  return topHeaderGradientColor[date];
 };
 
 const styles = StyleSheet.create({
