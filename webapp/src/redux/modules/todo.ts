@@ -1,3 +1,5 @@
+import { API_SERVER } from 'react-native-dotenv';
+
 // model
 import { ActionType } from '../../model/Common';
 import Todo, { TodoState } from '../../model/Todo';
@@ -15,34 +17,34 @@ const REMOVE_TODO = 'REMOVE_TODO';
 const addTodo = (todo: Todo) => {
   return {
     type: ADD_TODO,
-    todo,
+    todo
   };
 };
 const removeTodo = (todoId: number) => {
   return {
     type: REMOVE_TODO,
-    todoId,
+    todoId
   };
 };
 
 const setTodoList = (todoList: Todo[]) => {
   return {
     type: SET_TODO_LIST,
-    todoList,
+    todoList
   };
 };
 
 const setTodoTimeline = (todoTimeline: Todo[]) => {
   return {
     type: SET_TODO_TIMELINE,
-    todoTimeline,
+    todoTimeline
   };
 };
 
 const updateTodo = (todo: Todo) => {
   return {
     type: UPDATE_TODO,
-    todo,
+    todo
   };
 };
 
@@ -50,15 +52,15 @@ const updateTodo = (todo: Todo) => {
 
 const updateTodoComplte = (id: number) => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/', {
+    fetch(API_SERVER + '/todo/', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token,
+        'x-access-token': getState().user.token
       },
       body: JSON.stringify({
-        id,
-      }),
+        id
+      })
     })
       .then(response => response.json())
       .then(json => {
@@ -70,12 +72,12 @@ const updateTodoComplte = (id: number) => {
 
 const getTodoList = () => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/today', {
+    fetch(API_SERVER + '/todo/today', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token,
-      },
+        'x-access-token': getState().user.token
+      }
     })
       .then(response => response.json())
       .then(json => {
@@ -87,12 +89,12 @@ const getTodoList = () => {
 
 const getTodoTimeline = () => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/all/complete', {
+    fetch(API_SERVER + '/todo/all/complete', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token,
-      },
+        'x-access-token': getState().user.token
+      }
     })
       .then(response => response.json())
       .then(json => {
@@ -104,15 +106,15 @@ const getTodoTimeline = () => {
 
 const createTodo = (title: string) => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/', {
+    fetch(API_SERVER + '/todo/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token,
+        'x-access-token': getState().user.token
       },
       body: JSON.stringify({
-        title,
-      }),
+        title
+      })
     })
       .then(response => response.json())
       .then(json => {
@@ -126,15 +128,15 @@ const createTodo = (title: string) => {
 
 const deleteTodo = (id: number) => {
   return (dispatch, getState) => {
-    fetch('http://localhost:3000/todo/', {
+    fetch(API_SERVER + '/todo/', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'x-access-token': getState().user.token,
+        'x-access-token': getState().user.token
       },
       body: JSON.stringify({
-        id,
-      }),
+        id
+      })
     })
       .then(() => {
         dispatch(removeTodo(id));
@@ -145,7 +147,7 @@ const deleteTodo = (id: number) => {
 
 const initialState: TodoState = {
   todoList: undefined,
-  todoTimeline: undefined,
+  todoTimeline: undefined
 };
 
 // reducer
@@ -171,7 +173,7 @@ const applySetTodoList = (state: TodoState, action) => {
   const todoList = action.todoList.sort((a, b) => a.id - b.id);
   return {
     ...state,
-    todoList,
+    todoList
   };
 };
 
@@ -179,7 +181,7 @@ const applySetTodoTimeline = (state: TodoState, action) => {
   const { todoTimeline } = action;
   return {
     ...state,
-    todoTimeline,
+    todoTimeline
   };
 };
 
@@ -189,7 +191,9 @@ const applyAddTodo = (state: TodoState, action) => {
 };
 
 const applyUpdateTodo = (state: TodoState, action) => {
-  const newTodoList = state.todoList.map(todo => (todo.id === action.todo.id ? action.todo : todo));
+  const newTodoList = state.todoList.map(todo =>
+    todo.id === action.todo.id ? action.todo : todo
+  );
 
   return { ...state, todoList: newTodoList };
 };
@@ -206,7 +210,7 @@ export const actionCreators = {
   getTodoTimeline,
   createTodo,
   updateTodoComplte,
-  deleteTodo,
+  deleteTodo
 };
 
 export default reducer;

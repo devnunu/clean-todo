@@ -1,3 +1,5 @@
+import { API_SERVER } from 'react-native-dotenv';
+
 import { ActionType } from '../../model/Common';
 import UserState from '../../model/User';
 import { SecureStore } from 'expo';
@@ -19,7 +21,7 @@ const saveToken = (token: string) => {
 
 const usernameLogin = (username: string, password: string) => {
   return (dispatch: any) => {
-    fetch('http://localhost:3000/users/login/', {
+    fetch(API_SERVER + '/users/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -41,7 +43,7 @@ const usernameLogin = (username: string, password: string) => {
 
 const createAccount = (username, password, passwordValid) => {
   return async dispatch => {
-    fetch('http://localhost:3000/users/', {
+    fetch(API_SERVER + '/users/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
